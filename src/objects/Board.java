@@ -8,28 +8,44 @@ import engine.ID;
 
 public class Board extends GameObject {
 	public int tileWidth;
-	private BoardState[][] board;
+	private BoardState[][] gameBoard = new BoardState[8][8];
 	private int boardSize = 8;
 
 	public Board(int x, int y, ID id, int tileWidth) {
 		super(x, y, id, null);
 		this.tileWidth = tileWidth;
+		for(int i = 0; i < boardSize; i++) {
+			for(int j = 0; j < boardSize; j++) {
+				gameBoard[i][j] = BoardState.FREE;
+			}
+		}
 	}
 
 	public void render(Graphics g) {
+		
+		g.setColor(Color.BLACK);
+		g.drawRect((int)x-1, (int)y-1, tileWidth*boardSize+1, tileWidth*boardSize+1);
+		
 		for (int i = 0; i < boardSize; i++) {
 			for (int j = 0; j < boardSize; j++) {
-				if (j % 2 == 0) {
-					if (i % 2 != 0) {
-						g.setColor(Color.BLACK);
-					} else {
-						g.setColor(Color.WHITE);
+				if (j % 2 == 0 ^ i % 2 == 0) {
+					switch (gameBoard[i][j]) {
+						case VALID :{
+							g.setColor(Color.GREEN);
+						}
+						default:{
+							g.setColor(Color.BLACK);
+						}
 					}
+					
 				} else {
-					if (i % 2 != 0) {
-						g.setColor(Color.WHITE);
-					} else {
-						g.setColor(Color.BLACK);
+					switch (gameBoard[i][j]) {
+					case VALID :{
+							g.setColor(Color.GREEN);
+						}
+						default:{
+							g.setColor(Color.WHITE);
+						}
 					}
 				}
 				g.fillRect(((int) x) + j * tileWidth, ((int) y) + i * tileWidth, tileWidth, tileWidth);
@@ -50,12 +66,12 @@ public class Board extends GameObject {
 		this.tileWidth = tileWidth;
 	}
 
-	public BoardState[][] getBoard() {
-		return board;
+	public BoardState[][] getGameBoard() {
+		return gameBoard;
 	}
 
-	public void setBoard(BoardState[][] board) {
-		this.board = board;
+	public void setGameBoard(BoardState[][] gameBoard) {
+		this.gameBoard = gameBoard;
 	}
 
 	public int getBoardSize() {
