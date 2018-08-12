@@ -5,5 +5,5 @@ package engine;
  */
 
 public enum ID {
-	Player(), Enemy(), SmartEnemy(), Trail();
+	PIECE, PLAYER, BOARD
 }

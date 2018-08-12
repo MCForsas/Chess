@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import graphics.BufferedImageLoader;
 import graphics.SpriteSheet;
 import graphics.Window;
+import objects.Board;
 import objects.Player;
 
 import java.awt.Graphics;
@@ -21,6 +22,8 @@ public class Game extends Canvas implements Runnable {
 	private boolean running = false;
 	private Handler handler;
 	public static BufferedImage spriteSheet;
+	public Board board;
+	public int tileWidth = 48;
 
 	/*
 	 * Instantiates objects and window
@@ -42,7 +45,7 @@ public class Game extends Canvas implements Runnable {
 		// AudioPlayer.load();
 		// AudioPlayer.getMusic("music").loop();
 		
-		handler.addObject(new Player(WIDTH / 2, HEIGHT / 2, ID.Player, spriteSheet.grabImage(1, 1, 32, 32)));
+		handler.addObject(new Board(WIDTH/2-tileWidth*4,HEIGHT/2-tileWidth*4, ID.BOARD, 48));
 		
 		new Window(WIDTH, HEIGHT, "The game", this);
 	}
@@ -121,7 +124,7 @@ public class Game extends Canvas implements Runnable {
 
 		Graphics g = bufferStrategy.getDrawGraphics();
 
-		g.setColor(Color.BLACK);
+		g.setColor(new Color(66,55,21));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 
 		handler.render(g);
