@@ -7,9 +7,10 @@ import java.awt.Rectangle;
 import engine.ID;
 
 public class Board extends GameObject {
-	public int tileWidth;
+	private int tileWidth;
 	private BoardState[][] gameBoard = new BoardState[8][8];
 	private int boardSize = 8;
+	private Color blackColor, whiteColor;
 
 	public Board(int x, int y, ID id, int tileWidth) {
 		super(x, y, id, null);
@@ -19,6 +20,8 @@ public class Board extends GameObject {
 				gameBoard[i][j] = BoardState.FREE;
 			}
 		}
+		this.blackColor = new Color(83,83,78);
+		this.whiteColor = new Color(196,196,196);
 	}
 
 	public void render(Graphics g) {
@@ -28,26 +31,20 @@ public class Board extends GameObject {
 		
 		for (int i = 0; i < boardSize; i++) {
 			for (int j = 0; j < boardSize; j++) {
-				if (j % 2 == 0 ^ i % 2 == 0) {
-					switch (gameBoard[i][j]) {
-						case VALID :{
-							g.setColor(Color.GREEN);
-						}
-						default:{
-							g.setColor(Color.BLACK);
-						}
-					}
-					
-				} else {
-					switch (gameBoard[i][j]) {
+				switch (gameBoard[i][j]) {
 					case VALID :{
-							g.setColor(Color.GREEN);
-						}
-						default:{
-							g.setColor(Color.WHITE);
+						g.setColor(Color.GREEN);
+						break;
+					}
+					default:{
+						if (j % 2 == 0 ^ i % 2 == 0) {
+							g.setColor(this.blackColor);
+						}else {
+							g.setColor(this.whiteColor);
 						}
 					}
 				}
+				
 				g.fillRect(((int) x) + j * tileWidth, ((int) y) + i * tileWidth, tileWidth, tileWidth);
 			}
 		}
@@ -82,9 +79,7 @@ public class Board extends GameObject {
 		this.boardSize = boardSize;
 	}
 
-	@Override
 	public Rectangle getBounds() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

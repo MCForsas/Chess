@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class InputManager extends KeyAdapter {
+public class InputManager extends KeyAdapter{
 
 	private static Map<String, Boolean> keyMap = new HashMap<String, Boolean>();
 

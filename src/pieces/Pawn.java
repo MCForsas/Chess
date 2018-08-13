@@ -3,18 +3,18 @@ package pieces;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import engine.Game;
 import engine.ID;
 import objects.Board;
 import objects.Piece;
 
-public class King extends Piece{
+public class Pawn extends Piece{
 
-	public King(float x, float y, ID id, BufferedImage sprite, int tileWidth, Board board) {
-		super(x, y, id, sprite, board);
+	public Pawn(int row, int col, BufferedImage sprite, Board board, Game game, PieceColor color) {
+		super(row, col, ID.PIECE, sprite, board, game, color);
 	}
 
 	public void tick() {
-		// TODO Auto-generated method stub
 		
 	}
 

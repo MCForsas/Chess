@@ -10,6 +10,8 @@ import graphics.SpriteSheet;
 import graphics.Window;
 import objects.Board;
 import objects.Player;
+import pieces.Pawn;
+import pieces.PieceColor;
 
 import java.awt.Graphics;
 
@@ -23,7 +25,7 @@ public class Game extends Canvas implements Runnable {
 	private Handler handler;
 	public static BufferedImage spriteSheet;
 	public Board board;
-	public int tileWidth = 48;
+	public final int tileWidth = 48;
 
 	/*
 	 * Instantiates objects and window
@@ -35,19 +37,17 @@ public class Game extends Canvas implements Runnable {
 		handler = new Handler();
 
 		try {
-			spriteSheet = loader.loadImage("/Sheet.png");
+			spriteSheet = loader.loadImage("/pieces.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		SpriteSheet spriteSheet = new SpriteSheet(Game.spriteSheet, 32);
-		
 		// AudioPlayer.load();
 		// AudioPlayer.getMusic("music").loop();
-		
-		handler.addObject(new Board(WIDTH/2-tileWidth*4,HEIGHT/2-tileWidth*4, ID.BOARD, 48));
-		
-		new Window(WIDTH, HEIGHT, "The game", this);
+		board = new Board(WIDTH/2-tileWidth*4,HEIGHT/2-tileWidth*4, ID.BOARD, 48);
+		handler.addObject(board);
+		setupBoard();
+		new Window(WIDTH, HEIGHT, "Chess", this);
 	}
 
 	
@@ -133,6 +133,26 @@ public class Game extends Canvas implements Runnable {
 		bufferStrategy.show();
 	}
 
+	private void setupBoard() {
+		SpriteSheet spriteSheet = new SpriteSheet(Game.spriteSheet, 32);
+		
+		/*
+		 * Whites
+		 */
+		//Add 
+		
+		//Add pawns
+		for(int i = 0; i < 8; i++) {
+			handler.addObject(new Pawn(1, i, spriteSheet.grabImage(1, 1, 32, 32), board, this, PieceColor.WHITE));
+		}
+		
+		/*
+		 * Blacks
+		 */
+		for(int i = 0; i < 8; i++) {
+			handler.addObject(new Pawn(6, i, spriteSheet.grabImage(3, 1, 32, 32), board, this, PieceColor.WHITE));
+		}
+	}
 	public static void main(String args[]) {
 		new Game();
 	}
