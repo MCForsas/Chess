@@ -9,9 +9,9 @@ import graphics.BufferedImageLoader;
 import graphics.SpriteSheet;
 import graphics.Window;
 import objects.Board;
+import objects.BoardState;
 import objects.Player;
-import pieces.Pawn;
-import pieces.PieceColor;
+import pieces.*;
 
 import java.awt.Graphics;
 
@@ -142,16 +142,22 @@ public class Game extends Canvas implements Runnable {
 		//Add 
 		
 		//Add pawns
-		for(int i = 0; i < 8; i++) {
-			handler.addObject(new Pawn(1, i, spriteSheet.grabImage(1, 1, 32, 32), board, this, PieceColor.WHITE));
-		}
+		/*for(int i = 0; i < board.getBoardSize(); i++) {
+			handler.addObject(new Pawn(1, i, spriteSheet.grabImage(1, 1, 32, 32), board, this, BoardState.WHITE));
+		}*/
 		
 		/*
 		 * Blacks
 		 */
-		for(int i = 0; i < 8; i++) {
-			handler.addObject(new Pawn(6, i, spriteSheet.grabImage(3, 1, 32, 32), board, this, PieceColor.WHITE));
-		}
+		/*for(int i = 0; i < board.getBoardSize(); i++) {
+			handler.addObject(new Pawn(6, i, spriteSheet.grabImage(3, 1, 32, 32), board, this, BoardState.BLACK));
+		}*/
+		
+		/*
+		 * Tests
+		 */
+		handler.addObject(new King(4,4,spriteSheet.grabImage(2, 2, 32, 32), board, this, BoardState.WHITE));
+		
 	}
 	public static void main(String args[]) {
 		new Game();

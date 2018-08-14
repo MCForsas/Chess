@@ -2,9 +2,14 @@ package engine;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MouseManager extends MouseAdapter{
+	
+	private static Map<Integer, Boolean> mouseMap = new HashMap<Integer, Boolean>();
+	
 	public static int mouseX = 0;
 	public static int mouseY = 0;
 	
@@ -13,11 +18,15 @@ public class MouseManager extends MouseAdapter{
 		mouseY = e.getY();
 	}
 	
+	public void mousePressed(MouseEvent e){
+ 		mouseMap.put(e.getButton(), true);
+ 	}
+	
 	public void mouseReleased(MouseEvent e) {
-		
+		mouseMap.put(e.getButton(), false);
 	}
 	
- 	public void mousePressed(MouseEvent e){
- 		
- 	}
+	public static boolean getMouseButtonPressed(int key) {
+		return mouseMap.get(key);
+	}
 }

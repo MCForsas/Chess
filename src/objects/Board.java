@@ -8,8 +8,9 @@ import engine.ID;
 
 public class Board extends GameObject {
 	private int tileWidth;
-	private BoardState[][] gameBoard = new BoardState[8][8];
 	private int boardSize = 8;
+	private BoardState[][] gameBoard = new BoardState[boardSize][boardSize];
+	private BoardState[][] validPath = new BoardState[boardSize][boardSize];
 	private Color blackColor, whiteColor;
 
 	public Board(int x, int y, ID id, int tileWidth) {
@@ -27,25 +28,29 @@ public class Board extends GameObject {
 	public void render(Graphics g) {
 		
 		g.setColor(Color.BLACK);
-		g.drawRect((int)x-1, (int)y-1, tileWidth*boardSize+1, tileWidth*boardSize+1);
+		//g.drawRect((int)x-1, (int)y-1, tileWidth*boardSize+1, tileWidth*boardSize+1);
 		
 		for (int i = 0; i < boardSize; i++) {
 			for (int j = 0; j < boardSize; j++) {
-				switch (gameBoard[i][j]) {
-					case VALID :{
-						g.setColor(Color.GREEN);
-						break;
+				if(validPath[i][j] != BoardState.VALID) {
+					if (j % 2 == 0 ^ i % 2 == 0) {
+						g.setColor(this.blackColor);
+					}else {
+						g.setColor(this.whiteColor);
 					}
-					default:{
-						if (j % 2 == 0 ^ i % 2 == 0) {
-							g.setColor(this.blackColor);
-						}else {
-							g.setColor(this.whiteColor);
-						}
+					if(gameBoard[i][j] == BoardState.WHITE) {
+						g.setColor(Color.RED);
 					}
+					if(gameBoard[i][j] == BoardState.BLACK) {
+						g.setColor(Color.BLUE);
+					}
+				}else {
+					g.setColor(Color.GREEN);
 				}
 				
 				g.fillRect(((int) x) + j * tileWidth, ((int) y) + i * tileWidth, tileWidth, tileWidth);
+				g.setColor(Color.BLACK);
+				g.drawRect(((int) x) + j * tileWidth, ((int) y) + i * tileWidth, tileWidth, tileWidth);
 			}
 		}
 
@@ -53,6 +58,26 @@ public class Board extends GameObject {
 
 	public void tick() {
 
+	}
+	
+	public BoardState getBoardState(int row, int col) {
+		if((row < boardSize || col < boardSize) && (row >= 0 || col >= 0)) {
+			return gameBoard[row][col];
+		}else {
+			return BoardState.INVALID;
+		}
+	}
+	
+	public void setBoardState(int row, int col, BoardState state) {
+		if((row < boardSize || col < boardSize) && (row >= 0 || col >= 0)) {
+			gameBoard[row][col] = state;
+		}
+	}
+	
+	public void setValidPath(int row, int col, BoardState state) {
+		if((row < boardSize || col < boardSize) && (row >= 0 || col >= 0)) {
+			 validPath[row][col] = state;
+		}
 	}
 	
 	public int getTileWidth() {

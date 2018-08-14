@@ -1,5 +1,5 @@
 package objects;
 
 public enum BoardState {
-	OCCUPIED, SELECTED, FREE, VALID
+	FREE, WHITE, BLACK, VALID, INVALID
 }

@@ -9,9 +9,9 @@ import objects.Board;
 import objects.BoardState;
 import objects.Piece;
 
-public class Pawn extends Piece{
+public class King extends Piece{
 
-	public Pawn(int row, int col, BufferedImage sprite, Board board, Game game, BoardState color) {
+	public King(int row, int col, BufferedImage sprite, Board board, Game game, BoardState color) {
 		super(row, col, ID.PIECE, sprite, board, game, color);
 	}
  
@@ -30,16 +30,16 @@ public class Pawn extends Piece{
 	protected boolean isValidPath(int row, int col) {
 		BoardState state = board.getBoardState(row, col);
 		if(state != color && state != BoardState.INVALID) {
-			if(moves >= 1) {
-				if(row == this.row+sign && col == this.col) {
-					return true;
-				}
-			}else {
-				if((row == this.row+sign && col == this.col) || (row == this.row+sign*2 && col == this.col)) {
-					return true;
-				}
-			}
-			if(isCapturePath(row, col)){
+			if( (row == this.row+1 && col == this.col+1) ||
+				(row == this.row+1 && col == this.col-1) ||
+				(row == this.row-1 && col == this.col+1) ||
+				(row == this.row-1 && col == this.col-1) ||
+				(row+1 == this.row+1 && col+1 == this.col) ||
+				(row+1 == this.row+1 && col-1 == this.col) ||
+				(row+1 == this.row && col+1 == this.col+1) ||
+				(row-1 == this.row && col+1 == this.col+1)
+				
+				) {
 				return true;
 			}
 		}
@@ -47,7 +47,7 @@ public class Pawn extends Piece{
 		return false;
 	}
 
-	private boolean isCapturePath(int row, int col) {
+	/*private boolean isCapturePath(int row, int col) {
 		BoardState state = board.getBoardState(row, col);
 		if(state == BoardState.WHITE){
 			if(state != color && state != BoardState.INVALID) {
@@ -63,7 +63,7 @@ public class Pawn extends Piece{
 			}
 		}
 		return false;
-	}
+	}*/
 	
 	@Override
 	public void move(int row, int col) {
