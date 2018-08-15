@@ -27,19 +27,19 @@ public class Pawn extends Piece{
 	}
 	
 
-	protected boolean isValidPath(int row, int col) {
-		BoardState state = board.getBoardState(row, col);
+	protected boolean isValidPath(int finalRow, int finalCol) {
+		BoardState state = board.getBoardState(finalRow, finalCol);
 		if(state != color && state != BoardState.INVALID) {
 			if(moves >= 1) {
-				if(row == this.row+sign && col == this.col) {
+				if(finalRow == this.row+sign && finalCol == this.col) {
 					return true;
 				}
 			}else {
-				if((row == this.row+sign && col == this.col) || (row == this.row+sign*2 && col == this.col)) {
+				if((finalRow == this.row+sign && finalCol == this.col) || (finalRow == this.row+sign*2 && finalCol == this.col)) {
 					return true;
 				}
 			}
-			if(isCapturePath(row, col)){
+			if(isCapturePath(finalRow, finalCol)){
 				return true;
 			}
 		}
@@ -47,18 +47,18 @@ public class Pawn extends Piece{
 		return false;
 	}
 
-	private boolean isCapturePath(int row, int col) {
-		BoardState state = board.getBoardState(row, col);
+	private boolean isCapturePath(int finalRow, int finalCol) {
+		BoardState state = board.getBoardState(finalRow, finalCol);
 		if(state == BoardState.WHITE){
 			if(state != color && state != BoardState.INVALID) {
-				if((row == this.row+sign && col == this.col+1) || (row == this.row+sign && col == this.col-1)) {
-				return true;
+				if((finalRow == this.row+sign && finalCol == this.col+1) || (finalRow == this.row+sign && finalCol == this.col-1)) {
+					return true;
 				}
 			}
 		}else if(state == BoardState.BLACK) {
 			if(state != color && state != BoardState.INVALID) {
-				if((row == this.row+sign && col == this.col+1) || (row == this.row+sign && col == this.col-1)) {
-				return true;
+				if((finalRow == this.row+sign && finalCol == this.col+1) || (finalRow == this.row+sign && finalCol == this.col-1)) {
+					return true;
 				}
 			}
 		}

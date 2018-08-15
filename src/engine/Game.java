@@ -137,6 +137,12 @@ public class Game extends Canvas implements Runnable {
 		SpriteSheet spriteSheet = new SpriteSheet(Game.spriteSheet, 32);
 		
 		/*
+		 * Tests
+		 */
+		//handler.addObject(new Knight(2,4,spriteSheet.grabImage(3, 3, 32, 32), board, this, BoardState.BLACK));
+		//handler.addObject(new Rook(2,2,spriteSheet.grabImage(3, 2, 32, 32), board, this, BoardState.BLACK));
+		
+		/*
 		 * Whites
 		 */
 		//Add 
@@ -153,10 +159,6 @@ public class Game extends Canvas implements Runnable {
 			handler.addObject(new Pawn(6, i, spriteSheet.grabImage(3, 1, 32, 32), board, this, BoardState.BLACK));
 		}*/
 		
-		/*
-		 * Tests
-		 */
-		handler.addObject(new King(4,4,spriteSheet.grabImage(2, 2, 32, 32), board, this, BoardState.WHITE));
 		
 	}
 	public static void main(String args[]) {

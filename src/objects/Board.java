@@ -38,12 +38,6 @@ public class Board extends GameObject {
 					}else {
 						g.setColor(this.whiteColor);
 					}
-					if(gameBoard[i][j] == BoardState.WHITE) {
-						g.setColor(Color.RED);
-					}
-					if(gameBoard[i][j] == BoardState.BLACK) {
-						g.setColor(Color.BLUE);
-					}
 				}else {
 					g.setColor(Color.GREEN);
 				}

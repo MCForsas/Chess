@@ -13,21 +13,9 @@ public class King extends Piece{
 
 	public King(int row, int col, BufferedImage sprite, Board board, Game game, BoardState color) {
 		super(row, col, ID.PIECE, sprite, board, game, color);
-	}
- 
-	public void tick() {
-		for(int i = 0; i < board.getBoardSize(); i++) {
-			for(int j = 0; j < board.getBoardSize(); j++) {
-				if(isValidPath(i, j)) {
-					board.setValidPath(i, j, BoardState.VALID);
-				}
-			}
-		}
-		board.setBoardState(row, col, color);
-	}
-	
+	}	
 
-	protected boolean isValidPath(int row, int col) {
+	protected boolean isValidPath(int finalRow, int finalCol) {
 		BoardState state = board.getBoardState(row, col);
 		if(state != color && state != BoardState.INVALID) {
 			if( (row == this.row+1 && col == this.col+1) ||
@@ -43,7 +31,6 @@ public class King extends Piece{
 				return true;
 			}
 		}
-		
 		return false;
 	}
 

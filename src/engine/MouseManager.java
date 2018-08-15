@@ -27,6 +27,10 @@ public class MouseManager extends MouseAdapter{
 	}
 	
 	public static boolean getMouseButtonPressed(int key) {
-		return mouseMap.get(key);
+		if(mouseMap.containsKey(key)) { 
+			return mouseMap.get(key);
+		}else {
+			return false;
+		}
 	}
 }

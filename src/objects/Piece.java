@@ -1,10 +1,13 @@
 package objects;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+
 
 import engine.Game;
 import engine.ID;
+import engine.MouseManager;
 import pieces.PieceColor;
 
 public abstract class Piece extends GameObject {
@@ -14,6 +17,7 @@ public abstract class Piece extends GameObject {
 	protected BoardState color;
 	protected int moves;
 	protected int sign;
+	protected MouseManager mouseManager;
 	
 	public Piece(int row, int col, ID id, BufferedImage sprite, Board board, Game game, BoardState color) {
 		super(0, 0, id,sprite);
@@ -23,8 +27,35 @@ public abstract class Piece extends GameObject {
 		this.game = game;
 		this.color = color;
 		this.sign  = (color == BoardState.WHITE) ? 1 : -1;
+		
 	}
 
+	public void tick() {
+		//if(isPressed()) {
+			for(int i = 0; i < board.getBoardSize(); i++) {
+				for(int j = 0; j < board.getBoardSize(); j++) {
+					if(isValidPath(i, j)) {
+						board.setValidPath(i, j, BoardState.VALID);
+					}
+				}
+			}
+		//}else {
+			//board.setBoardState(row, col, color);
+		//}
+		
+	}
+	
+	protected boolean isPressed() {
+		if(MouseManager.getMouseButtonPressed(MouseEvent.BUTTON1)){
+			if(MouseManager.mouseX >= this.row * board.getTileWidth() && MouseManager.mouseX <= this.row+1 * board.getTileWidth()) {
+				if(MouseManager.mouseY >= this.col * board.getTileWidth() && MouseManager.mouseY <= this.col+1 * board.getTileWidth()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public void render(Graphics g) {
 		if (this.sprite != null) {
 			g.drawImage(
