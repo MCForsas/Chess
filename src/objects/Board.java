@@ -4,23 +4,22 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import engine.Game;
 import engine.ID;
+import graphics.SpriteSheet;
+import objects.pieces.Queen;
 
-public class Board extends GameObject {
+public class Board {
 	private int tileWidth;
 	private int boardSize = 8;
-	private BoardState[][] gameBoard = new BoardState[boardSize][boardSize];
-	private BoardState[][] validPath = new BoardState[boardSize][boardSize];
+	private Piece[][] pieces = new Piece[boardSize][boardSize];
 	private Color blackColor, whiteColor;
+	private int x, y;
 
 	public Board(int x, int y, ID id, int tileWidth) {
-		super(x, y, id, null);
 		this.tileWidth = tileWidth;
-		for(int i = 0; i < boardSize; i++) {
-			for(int j = 0; j < boardSize; j++) {
-				gameBoard[i][j] = BoardState.FREE;
-			}
-		}
+		this.x = x;
+		this.y = y;
 		this.blackColor = new Color(83,83,78);
 		this.whiteColor = new Color(196,196,196);
 	}
@@ -28,20 +27,14 @@ public class Board extends GameObject {
 	public void render(Graphics g) {
 		
 		g.setColor(Color.BLACK);
-		//g.drawRect((int)x-1, (int)y-1, tileWidth*boardSize+1, tileWidth*boardSize+1);
 		
 		for (int i = 0; i < boardSize; i++) {
 			for (int j = 0; j < boardSize; j++) {
-				if(validPath[i][j] != BoardState.VALID) {
-					if (j % 2 == 0 ^ i % 2 == 0) {
-						g.setColor(this.blackColor);
-					}else {
-						g.setColor(this.whiteColor);
-					}
+				if (j % 2 == 0 ^ i % 2 == 0) {
+					g.setColor(this.blackColor);
 				}else {
-					g.setColor(Color.GREEN);
+					g.setColor(this.whiteColor);
 				}
-				
 				g.fillRect(((int) x) + j * tileWidth, ((int) y) + i * tileWidth, tileWidth, tileWidth);
 				g.setColor(Color.BLACK);
 				g.drawRect(((int) x) + j * tileWidth, ((int) y) + i * tileWidth, tileWidth, tileWidth);
@@ -51,43 +44,32 @@ public class Board extends GameObject {
 	}
 
 	public void tick() {
+		
+	}
+	
+	private boolean isValidMove(Piece piece, int finalX, int finalY) {
+		return false;
+	}
+	
+	public void setupBoard() {
+		SpriteSheet spriteSheet = new SpriteSheet(Game.spriteSheet, 32);
+		//this.pieces[3][3] = new Queen(3,3,spriteSheet.grabImage(4, 2, 32, 32), this, this);
+	}
+	
+	public Piece getPieces(int row, int col) {
+		return this.pieces[row][col];
+	}
+	
+	public void setPieces(int row, int col, Piece piece) {
+		this.pieces[row][col] = piece;
+	}
 
-	}
-	
-	public BoardState getBoardState(int row, int col) {
-		if((row < boardSize || col < boardSize) && (row >= 0 || col >= 0)) {
-			return gameBoard[row][col];
-		}else {
-			return BoardState.INVALID;
-		}
-	}
-	
-	public void setBoardState(int row, int col, BoardState state) {
-		if((row < boardSize || col < boardSize) && (row >= 0 || col >= 0)) {
-			gameBoard[row][col] = state;
-		}
-	}
-	
-	public void setValidPath(int row, int col, BoardState state) {
-		if((row < boardSize || col < boardSize) && (row >= 0 || col >= 0)) {
-			 validPath[row][col] = state;
-		}
-	}
-	
 	public int getTileWidth() {
 		return tileWidth;
 	}
 
 	public void setTileWidth(int tileWidth) {
 		this.tileWidth = tileWidth;
-	}
-
-	public BoardState[][] getGameBoard() {
-		return gameBoard;
-	}
-
-	public void setGameBoard(BoardState[][] gameBoard) {
-		this.gameBoard = gameBoard;
 	}
 
 	public int getBoardSize() {
@@ -98,9 +80,20 @@ public class Board extends GameObject {
 		this.boardSize = boardSize;
 	}
 
-	public Rectangle getBounds() {
-		return null;
+	public int getX() {
+		return x;
 	}
 
+	public void setX(int x) {
+		this.x = x;
+	}
 
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	
 }
