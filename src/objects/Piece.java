@@ -8,27 +8,37 @@ import java.awt.image.BufferedImage;
 import engine.Game;
 import engine.ID;
 import engine.MouseManager;
+import graphics.SpriteSheet;
 
 public abstract class Piece{
 	protected Board board;
 	protected int moves;
-	protected MouseManager mouseManager;
 	protected BufferedImage sprite;
 	protected int x, y;
 	protected Player player;
+	protected SpriteSheet spriteSheet;
+	protected PieceType pieceType;
 	
-	public Piece(int x, int y, BufferedImage sprite, Board board, Player player) {
-		this.sprite = sprite;
+	public PieceType getPieceType() {
+		return pieceType;
+	}
+
+	public void setPieceType(PieceType pieceType) {
+		this.pieceType = pieceType;
+	}
+
+	public Piece(int x, int y, Board board, Player player) {
 		this.x = x;
 		this.y = y;
 		this.board = board;
 		this.player = player;
+		this.spriteSheet = new SpriteSheet(Game.spriteSheet, 32);
 	}
 	
 	protected boolean isPressed() {
 		if(MouseManager.getMouseButtonPressed(MouseEvent.BUTTON1)){
-			if(MouseManager.mouseX >= this.x * board.getTileWidth() && MouseManager.mouseX <= this.x+1 * board.getTileWidth()) {
-				if(MouseManager.mouseY >= this.y * board.getTileWidth() && MouseManager.mouseY <= this.y+1 * board.getTileWidth()) {
+			if(MouseManager.getMouseX() >= this.x * board.getTileWidth() && MouseManager.getMouseX() <= this.x+1 * board.getTileWidth()) {
+				if(MouseManager.getMouseY() >= this.y * board.getTileWidth() && MouseManager.getMouseY() <= this.y+1 * board.getTileWidth()) {
 					return true;
 				}
 			}
@@ -47,9 +57,17 @@ public abstract class Piece{
 		}
 	}
 	
-	protected abstract boolean isValidPath(int row, int col);
-	//public abstract void move(int row, int col);
+	protected boolean isMovedToItSelf(int finalX, int finalY) {
+		return (finalX == this.x && finalY == this.y);
+	}
 	
+	protected abstract boolean isValidMove(int finalX, int finalY);
+	protected abstract boolean isValidEndPoint(int finalX, int finalY);
+	//public abstract int[][] drawPath(int finalX, int finalY);
+	
+	public Player getPlayer() {
+		return this.player;
+	}
 	
 	protected int getMoves() {
 		return moves;

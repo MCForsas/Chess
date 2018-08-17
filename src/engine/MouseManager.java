@@ -10,8 +10,8 @@ public class MouseManager extends MouseAdapter{
 	
 	private static Map<Integer, Boolean> mouseMap = new HashMap<Integer, Boolean>();
 	
-	public static int mouseX = 0;
-	public static int mouseY = 0;
+	private static int mouseX = 0;
+	private static int mouseY = 0;
 	
 	public void mouseMoved(MouseEvent e) {
 		mouseX = e.getX();
@@ -20,11 +20,16 @@ public class MouseManager extends MouseAdapter{
 	
 	public void mousePressed(MouseEvent e){
  		mouseMap.put(e.getButton(), true);
+ 		mouseX = e.getX();
+		mouseY = e.getY();
  	}
 	
 	public void mouseReleased(MouseEvent e) {
 		mouseMap.put(e.getButton(), false);
+		mouseX = e.getX();
+		mouseY = e.getY();
 	}
+	
 	
 	public static boolean getMouseButtonPressed(int key) {
 		if(mouseMap.containsKey(key)) { 
@@ -32,5 +37,25 @@ public class MouseManager extends MouseAdapter{
 		}else {
 			return false;
 		}
+	}
+	
+	public static boolean isClicked(int x, int y, int width, int height) {
+		return ((x >= mouseX && x + width <= mouseX) && (y >= mouseY && y + height <= mouseY));
+	}
+
+	public static int getMouseX() {
+		return mouseX;
+	}
+
+	public static void setMouseX(int mouseX) {
+		MouseManager.mouseX = mouseX;
+	}
+
+	public static int getMouseY() {
+		return mouseY;
+	}
+
+	public static void setMouseY(int mouseY) {
+		MouseManager.mouseY = mouseY;
 	}
 }

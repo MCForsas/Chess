@@ -14,6 +14,8 @@ import objects.Player;
 import objects.pieces.*;
 
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Game extends Canvas implements Runnable {
 
@@ -26,6 +28,7 @@ public class Game extends Canvas implements Runnable {
 	public static BufferedImage spriteSheet;
 	public Board board;
 	public final int tileWidth = 48;
+	private Player player0, player1;
 
 	/*
 	 * Instantiates objects and window
@@ -33,7 +36,8 @@ public class Game extends Canvas implements Runnable {
 	public Game() {
 		
 		BufferedImageLoader loader = new BufferedImageLoader();
-		this.addKeyListener(new InputManager());
+		this.addKeyListener(new KeyboardManager());
+		this.addMouseListener(new MouseManager());
 		handler = new Handler();
 
 		try {
@@ -44,7 +48,11 @@ public class Game extends Canvas implements Runnable {
 		
 		// AudioPlayer.load();
 		// AudioPlayer.getMusic("music").loop();
-		board = new Board(WIDTH/2-tileWidth*4,HEIGHT/2-tileWidth*4, ID.BOARD, 48);
+		player0 = new Player(Color.WHITE);
+		player1 = new Player(Color.BLACK);
+		board = new Board(WIDTH/2-tileWidth*4,HEIGHT/2-tileWidth*4, 48, player0, player1);
+		player0.setBoard(board);
+		player1.setBoard(board);
 		board.setupBoard();
 		new Window(WIDTH, HEIGHT, "Chess", this);
 	}
