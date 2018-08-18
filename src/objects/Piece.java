@@ -61,8 +61,34 @@ public abstract class Piece{
 		return (finalX == this.x && finalY == this.y);
 	}
 	
+	protected boolean isNotMovedToSameColor(int finalX, int finalY) {
+		Piece piece = this.board.getPiece(finalX, finalY);
+		if(piece != null) {
+			if(piece.getPlayer().getColor() != this.getPlayer().getColor()) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	protected abstract boolean isValidMove(int finalX, int finalY);
 	protected abstract boolean isValidEndPoint(int finalX, int finalY);
+	
+	public void move(int finalX, int finalY) {
+		if(isValidEndPoint(finalX,finalY) && isValidMove(finalX, finalY) && isNotMovedToSameColor(finalX, finalY)) {
+			Piece piece = board.getPiece(finalX, finalY);
+			if(piece != null) {
+				if(piece.getPlayer().getColor() != this.player.getColor()) {
+					board.capture(finalX, finalY);
+					board.movePiece(this.x, this.y, finalX, finalY);
+				}
+			}
+			this.x = finalX;
+			this.y = finalY;
+		}
+	}
 	//public abstract int[][] drawPath(int finalX, int finalY);
 	
 	public Player getPlayer() {

@@ -53,13 +53,12 @@ public class Bishop extends Piece{
 		}
 		lenght = Math.abs(finalY - this.y);
 		
-		for(int i = 1; i < lenght+1; i++){
+		for(int i = 1; i < lenght; i++){
 			Piece piece = this.board.getPiece(this.x+directionX*i, this.y+directionY*i);
 			if(piece != null) {
-				System.out.println(piece.getPieceType());
-				if(piece.getPlayer() == this.player) {
+				//if(piece.getPlayer() == this.player) {
 					return false;
-				}
+				//}
 			}
 		}
 		return true;

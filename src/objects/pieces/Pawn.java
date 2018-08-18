@@ -25,18 +25,15 @@ public class Pawn extends Piece{
 	}
 	
 	protected boolean isValidEndPoint(int finalX, int finalY)  {
-		int sign = finalY - y;
-		if(player.getColor() == Color.WHITE && sign >= 0) {
-			return false;//Capture path
-		}
 		int diffX = Math.abs(finalX - x);
 		int diffY = Math.abs(finalY - y);
+		
 		if(moves >= 1) {
-			if(diffX == 0 && diffY == 1) {
+			if(diffY == 0 && diffX == 1) {
 				return true;
 			}
 		}else {
-			if(diffX == 0 && diffY <= 2) {
+			if(diffY == 0 && diffX <= 2) {
 				return true;
 			}
 		}
@@ -45,7 +42,27 @@ public class Pawn extends Piece{
 
 	@Override
 	protected boolean isValidMove(int finalX, int finalY) {
-		// TODO Auto-generated method stub
-		return false;
+		Piece piece;
+		if(this.getPlayer().getColor() == Color.WHITE) {
+			if(finalX > this.x) {
+				return false;
+			}
+		}else if(this.getPlayer().getColor() == Color.BLACK) {
+			if(finalX < this.x) {
+				return false;
+			}
+		}
+		if(finalY != this.y) {
+			piece = board.getPiece(finalX, finalY);
+			if(piece == null) {
+				return false;
+			}
+		}else {
+			piece = board.getPiece(finalX, finalY);
+			if(piece != null) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

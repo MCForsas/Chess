@@ -20,9 +20,8 @@ public class Board {
 	private Color blackColor, whiteColor;
 	private int x, y;
 	private Player player0, player1;
-	private int selectedTileX, selectedTileY;
+	private int selectedTileX, selectedTileY,activeTileX, activeTileY, moveTileX, moveTileY;
 	private Piece selectedPiece;
-	private int activeTileX, activeTileY;
 
 	public Board(int x, int y, int tileWidth, Player player0, Player player1) {
 		this.tileWidth = tileWidth;
@@ -60,11 +59,9 @@ public class Board {
 					g.drawRect(((int) x) + j * tileWidth+2, ((int) y) + i * tileWidth+2, tileWidth-2, tileWidth-2);
 				}
 				if(selectedPiece != null) {
-					if(selectedPiece.isValidEndPoint(i, j)) {
-						if(selectedPiece.isValidMove(i, j)) {
-							g.setColor(Color.BLUE);
-							g.drawRect(((int) x) + j * tileWidth+2, ((int) y) + i * tileWidth+2, tileWidth-2, tileWidth-2);
-						}
+					if(selectedPiece.isValidEndPoint(i, j) && selectedPiece.isValidMove(i, j) && selectedPiece.isNotMovedToSameColor(i, j)) {
+						g.setColor(Color.BLUE);
+						g.drawRect(((int) x) + j * tileWidth+2, ((int) y) + i * tileWidth+2, tileWidth-2, tileWidth-2);
 					}
 				}
 			}
@@ -74,6 +71,7 @@ public class Board {
 
 	public void tick() {
 		selectTile();
+		move();
 	}
 	
 	private void selectTile() {
@@ -90,11 +88,25 @@ public class Board {
 		}
 	}
 	
+	private void move() {
+		if(MouseManager.getMouseButtonPressed(3)) {
+			moveTileX = (MouseManager.getMouseX() - x) / tileWidth; 
+			moveTileY = (MouseManager.getMouseY() - y) / tileWidth;
+			moveTileX = Methods.clamp(selectedTileX, 0, 7);
+			moveTileY = Methods.clamp(selectedTileX, 0, 7);
+			if(selectedPiece != null) {
+				selectedPiece.move(moveTileX, moveTileY);
+			}
+		}
+	}
+	
 	public void setupBoard() {
-		//this.pieces[0][0] = new Rook(0,0,this,this.player0);
-		//this.pieces[0][1] = new Knight(0,1,this,this.player0);
-		this.pieces[3][4] = new Queen(3,4,this,this.player1);
-		this.pieces[2][2] = new Bishop(2,2,this,this.player1);
+		this.pieces[2][1] = new Rook(2,1,this,this.player0);
+		this.pieces[1][2] = new Knight(1,2,this,this.player0);
+		this.pieces[2][4] = new Queen(2,4,this,this.player1);
+		this.pieces[5][4] = new Bishop(5,4,this,this.player1);
+		this.pieces[6][3] = new Pawn(6,3,this,this.player1);
+		this.pieces[7][2] = new Pawn(7,2,this,this.player0);
 	}
 	
 	public Piece getPiece(int row, int col) {
@@ -102,6 +114,21 @@ public class Board {
 			return this.pieces[row][col];
 		}else {
 			return null;
+		}
+	}
+	
+	public void movePiece(int x, int y, int finalX, int finalY) {
+		Piece piece = this.pieces[x][y];
+		if(piece != null) {
+			this.pieces[finalX][finalY] = piece;
+			this.pieces[x][y] = null;
+		}
+	}
+	
+	public void capture(int finalX, int finalY) {
+		Piece piece = this.pieces[finalX][finalY];
+		if(piece != null) {
+			this.pieces[finalX][finalY] = null;
 		}
 	}
 	

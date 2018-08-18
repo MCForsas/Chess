@@ -26,8 +26,8 @@ public class Knight extends Piece{
 	
 	protected boolean isValidEndPoint(int finalX, int finalY) {
 		int diffX = Math.abs(finalX - x);
-		int diffY = Math.abs(finalY - x);
-		if((diffX == 1 && diffY == 2) || (diffX == 2 && diffY == 1)) {
+		int diffY = Math.abs(finalY - y);
+		if((diffX == 2 && diffY == 1) || (diffX == 1 && diffY == 2)) {
 			return true;
 		}
 		
@@ -36,7 +36,12 @@ public class Knight extends Piece{
 
 	@Override
 	protected boolean isValidMove(int finalX, int finalY) {
-		// TODO Auto-generated method stub
-		return false;
+		/*Piece piece = this.board.getPiece(finalX, finalY);
+		if(piece != null) {
+			//if(piece.getPlayer() == this.player) {
+				return false;
+			//}
+		}*/
+		return true;
 	}
 }

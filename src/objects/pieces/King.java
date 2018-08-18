@@ -31,7 +31,12 @@ public class King extends Piece{
 	}
 
 	protected boolean isValidMove(int finalX, int finalY) {
-		// TODO Auto-generated method stub
-		return false;
+		/*Piece piece = this.board.getPiece(finalX, finalY);
+		if(piece != null) {
+			if(piece.getPlayer() == this.player) {
+				return false;
+			}
+		}*/
+		return true;
 	}
 }
