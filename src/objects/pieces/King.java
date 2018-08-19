@@ -25,18 +25,12 @@ public class King extends Piece{
 	}
 
 	protected boolean isValidEndPoint(int finalX, int finalY)  {
-		int diffX = Math.abs(finalX - x);
-		int diffY = Math.abs(finalY - x);
+		int diffX = Math.abs(finalX - this.x);
+		int diffY = Math.abs(finalY - this.y);
 		return diffX < 2 && diffY < 2 && !(diffX + diffY == 0);
 	}
 
 	protected boolean isValidMove(int finalX, int finalY) {
-		/*Piece piece = this.board.getPiece(finalX, finalY);
-		if(piece != null) {
-			if(piece.getPlayer() == this.player) {
-				return false;
-			}
-		}*/
 		return true;
 	}
 }

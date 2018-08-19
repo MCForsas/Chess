@@ -44,19 +44,34 @@ public class Queen extends Piece{
 
 		int directionX = 0, directionY = 0;
 		int lenght = 0;
-		if(Math.abs(finalX - this.x) == Math.abs(finalY - this.y) || ((finalY == this.y) || (finalX == this.x))) {
-			if(finalY - y > 0) {
-				directionY = 1;
-			}else if(finalY - y < 0){
-				directionY = -1;
-			}
+		if(finalY == this.y) {
 			if(finalX - x > 0) {
 				directionX = 1;
-			}else if(finalX - x < 0) {
+			}else {
 				directionX = -1;
 			}
+			lenght = Math.abs(finalX - this.x);
+		}else if(finalX == this.x){
+			if(finalY - y > 0) {
+				directionY = 1;
+			}else {
+				directionY = -1;
+			}
+			lenght = Math.abs(finalY - this.y);
+		}else {
+			lenght = Math.abs(finalX - this.x);
+			if(finalX - x < 0) {
+				directionX = -1;
+			}else {
+				directionX = 1;
+			}
+			if(finalY - y < 0) {
+				directionY = -1;
+			}else {
+				directionY = 1;
+			}
 		}
-		lenght = Math.abs(finalX - this.x) + Math.abs(finalY - this.y);
+		
 		for(int i = 1; i < lenght; i++){
 			Piece piece = this.board.getPiece(this.x+directionX*i, this.y+directionY*i);
 			if(piece != null) {

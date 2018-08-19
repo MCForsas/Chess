@@ -29,11 +29,11 @@ public class Pawn extends Piece{
 		int diffY = Math.abs(finalY - y);
 		
 		if(moves >= 1) {
-			if(diffY == 0 && diffX == 1) {
+			if(diffX == 0 && diffY == 1) {
 				return true;
 			}
 		}else {
-			if(diffY == 0 && diffX <= 2) {
+			if(diffX == 0 && diffY <= 2) {
 				return true;
 			}
 		}
@@ -44,15 +44,15 @@ public class Pawn extends Piece{
 	protected boolean isValidMove(int finalX, int finalY) {
 		Piece piece;
 		if(this.getPlayer().getColor() == Color.WHITE) {
-			if(finalX > this.x) {
+			if(finalY > this.y) {
 				return false;
 			}
 		}else if(this.getPlayer().getColor() == Color.BLACK) {
-			if(finalX < this.x) {
+			if(finalY < this.y) {
 				return false;
 			}
 		}
-		if(finalY != this.y) {
+		if(finalX != this.x) {
 			piece = board.getPiece(finalX, finalY);
 			if(piece == null) {
 				return false;

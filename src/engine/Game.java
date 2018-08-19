@@ -48,8 +48,8 @@ public class Game extends Canvas implements Runnable {
 		
 		// AudioPlayer.load();
 		// AudioPlayer.getMusic("music").loop();
-		player0 = new Player(Color.WHITE);
-		player1 = new Player(Color.BLACK);
+		player0 = new Player(Color.WHITE,true);
+		player1 = new Player(Color.BLACK,false);
 		board = new Board(WIDTH/2-tileWidth*4,HEIGHT/2-tileWidth*4, 48, player0, player1);
 		player0.setBoard(board);
 		player1.setBoard(board);

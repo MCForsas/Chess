@@ -19,20 +19,13 @@ public abstract class Piece{
 	protected SpriteSheet spriteSheet;
 	protected PieceType pieceType;
 	
-	public PieceType getPieceType() {
-		return pieceType;
-	}
-
-	public void setPieceType(PieceType pieceType) {
-		this.pieceType = pieceType;
-	}
-
 	public Piece(int x, int y, Board board, Player player) {
 		this.x = x;
 		this.y = y;
 		this.board = board;
 		this.player = player;
 		this.spriteSheet = new SpriteSheet(Game.spriteSheet, 32);
+		this.moves = 0;
 	}
 	
 	protected boolean isPressed() {
@@ -50,8 +43,8 @@ public abstract class Piece{
 		if (this.sprite != null) {
 			g.drawImage(
 				sprite,
-				(int) board.getX() + y * board.getTileWidth() + sprite.getWidth()/4,
-				(int) board.getY() + x * board.getTileWidth() + sprite.getHeight()/4,
+				board.getX() + x * board.getTileWidth() + sprite.getWidth()/4,
+				board.getY() + y * board.getTileWidth() + sprite.getHeight()/4,
 				null
 			);
 		}
@@ -82,14 +75,22 @@ public abstract class Piece{
 			if(piece != null) {
 				if(piece.getPlayer().getColor() != this.player.getColor()) {
 					board.capture(finalX, finalY);
-					board.movePiece(this.x, this.y, finalX, finalY);
 				}
 			}
+			board.movePiece(this.x, this.y, finalX, finalY);
 			this.x = finalX;
 			this.y = finalY;
+			this.moves++;
 		}
 	}
-	//public abstract int[][] drawPath(int finalX, int finalY);
+
+	public PieceType getPieceType() {
+		return pieceType;
+	}
+
+	public void setPieceType(PieceType pieceType) {
+		this.pieceType = pieceType;
+	}
 	
 	public Player getPlayer() {
 		return this.player;
