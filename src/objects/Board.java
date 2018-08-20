@@ -2,16 +2,14 @@ package objects;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-
-import engine.Game;
-import engine.ID;
-import engine.KeyboardManager;
 import engine.Methods;
 import engine.MouseManager;
-import graphics.SpriteSheet;
-import objects.pieces.*;
+import objects.pieces.Bishop;
+import objects.pieces.King;
+import objects.pieces.Knight;
+import objects.pieces.Pawn;
+import objects.pieces.Queen;
+import objects.pieces.Rook;
 
 public class Board {
 	private int tileWidth;
@@ -23,6 +21,7 @@ public class Board {
 	private int selectedTileX, selectedTileY,activeTileX, activeTileY, moveTileX, moveTileY;
 	private Piece selectedPiece;
 	private boolean isAbleToMove;
+	private Promotion promotion;
 
 	public Board(int x, int y, int tileWidth, Player player0, Player player1) {
 		this.tileWidth = tileWidth;
@@ -33,6 +32,7 @@ public class Board {
 		this.blackColor = new Color(83,83,78);
 		this.whiteColor = new Color(196,196,196);
 		this.isAbleToMove = true;
+		this.promotion = null;
 	}
 
 	public void render(Graphics g) {
@@ -70,13 +70,20 @@ public class Board {
 				}
 			}
 		}
+		
+		if(this.promotion != null) {
+			promotion.render(g);
+		}
 
 	}
 
 	public void tick() {
-		selectTile();
 		if(isAbleToMove) {
+			selectTile();
 			move();
+		}
+		if(this.promotion != null) {
+			this.promotion.tick();
 		}
 	}
 	
@@ -98,7 +105,7 @@ public class Board {
 	}
 	
 	private void move() {
-		if(MouseManager.getMouseButtonPressed(3)) {
+		if(MouseManager.getMouseButtonPressed(1)) {
 			moveTileX = (MouseManager.getMouseX() - x) / tileWidth; 
 			moveTileY = (MouseManager.getMouseY() - y) / tileWidth;
 			moveTileX = Methods.clamp(moveTileX, 0, 7);
@@ -112,12 +119,40 @@ public class Board {
 		}
 	}
 	
+	public void promote(Piece pawn, PieceType type) {
+		int pawnX = pawn.getX();
+		int pawnY = pawn.getY();
+		
+		Player pawnPlayer = pawn.getPlayer();
+		Piece pawnPiece = this.pieces[pawnX][pawnY];
+		
+		if(pawnPiece != null && pawnPiece.getPieceType() != null) {
+			if(type == PieceType.Queen) {
+				this.pieces[pawnX][pawnY] = new Queen(pawnX, pawnY, this, pawnPlayer);
+			}
+			if(type == PieceType.Rook) {
+				this.pieces[pawnX][pawnY] = new Rook(pawnX, pawnY, this, pawnPlayer);
+			}
+			if(type == PieceType.Bishop) {
+				this.pieces[pawnX][pawnY] = new Bishop(pawnX, pawnY, this, pawnPlayer);
+			}
+			if(type == PieceType.Knight) {
+				this.pieces[pawnX][pawnY] = new Knight(pawnX, pawnY, this, pawnPlayer);
+			}
+		}
+		setAbleToMove(true);
+		this.promotion = null;
+	}
+	
 	public void setupBoard() {
+		//Tests
+		this.pieces[1][1] = new Pawn(1, 1,this, this.player0);
+		this.pieces[1][6] = new Pawn(1, 6,this, this.player1);
 		/*
 		 * Black pieces
 		 */
 		//Rooks
-		this.pieces[0][0] = new Rook(0, 0, this, this.player1);
+		/*this.pieces[0][0] = new Rook(0, 0, this, this.player1);
 		this.pieces[7][0] = new Rook(7, 0, this, this.player1);
 		//Knights
 		this.pieces[1][0] = new Knight(1, 0, this, this.player1);
@@ -130,7 +165,7 @@ public class Board {
 		//King
 		this.pieces[4][0] = new King(4, 0, this, this.player1);
 		//Black pawns
-		/*for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < 8; i++) {
 			this.pieces[i][1] = new Pawn(i, 1,this, this.player1);
 		}*/
 		
@@ -138,7 +173,7 @@ public class Board {
 		 * White pieces 
 		 */
 		//Rooks
-		this.pieces[0][7] = new Rook(0, 7, this, this.player0);
+		/*this.pieces[0][7] = new Rook(0, 7, this, this.player0);
 		this.pieces[7][7] = new Rook(7, 7, this, this.player0);
 		//Knights
 		this.pieces[1][7] = new Knight(1, 7, this, this.player0);
@@ -173,10 +208,28 @@ public class Board {
 		this.selectedPiece = null;
 		this.selectedTileX = finalX;
 		this.selectedTileY = finalY;
+		
+		//Promote
+		if(piece.getPieceType() == PieceType.Pawn) {
+			if(piece.getPlayer().getColor() == Color.WHITE && finalY == 0) {
+				promotion = new Promotion(this.x + tileWidth*2, this.y + tileWidth*2, piece, this);
+			}
+			if(piece.getPlayer().getColor() == Color.BLACK && finalY == boardSize-1) {
+				promotion = new Promotion(this.x + tileWidth*2, this.y + tileWidth*2, piece, this);
+			}
+		}
 		player0.toggleItsTurn();
 		player1.toggleItsTurn();
 	}
 	
+	public boolean isAbleToMove() {
+		return isAbleToMove;
+	}
+
+	public void setAbleToMove(boolean isAbleToMove) {
+		this.isAbleToMove = isAbleToMove;
+	}
+
 	public void capture(int finalX, int finalY) {
 		Piece piece = this.pieces[finalX][finalY];
 		if(piece != null) {
