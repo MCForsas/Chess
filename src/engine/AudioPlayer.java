@@ -17,7 +17,7 @@ public class AudioPlayer {
 	 */
 	public static void load() {
 		try {
-			musicMap.put("music", new Music("res/Music.ogg"));
+			musicMap.put("victory", new Music("res/sounds/victory.ogg"));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -28,5 +28,9 @@ public class AudioPlayer {
 	 */
 	public static Music getMusic(String key) {
 		return musicMap.get(key);
+	}
+	
+	public static Sound getSound(String key) {
+		return soundMap.get(key);
 	}
 }

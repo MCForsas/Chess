@@ -2,8 +2,11 @@ package objects;
 
 import java.awt.Color;
 import java.awt.Graphics;
+
+import engine.AudioPlayer;
 import engine.Methods;
 import engine.MouseManager;
+import graphics.HUD;
 import objects.pieces.Bishop;
 import objects.pieces.King;
 import objects.pieces.Knight;
@@ -18,7 +21,7 @@ public class Board {
 	private Color blackColor, whiteColor;
 	private int x, y;
 	private Player player0, player1;
-	private int selectedTileX, selectedTileY,activeTileX, activeTileY, moveTileX, moveTileY;
+	private int selectedTileX = -1, selectedTileY = -1,activeTileX, activeTileY, moveTileX, moveTileY;
 	private Piece selectedPiece;
 	private boolean isAbleToMove;
 	private Promotion promotion;
@@ -49,24 +52,24 @@ public class Board {
 					g.setColor(this.whiteColor);
 				}
 				g.fillRect( x + i * tileWidth, y + j * tileWidth, tileWidth, tileWidth);
-				g.setColor(Color.BLACK);
-				g.drawRect(x + i * tileWidth, y + j * tileWidth, tileWidth, tileWidth);
-				if(pieces[i][j] != null) {
-					pieces[i][j].render(g);
-				}
 				if(i == selectedTileX && j == selectedTileY) {
 					g.setColor(Color.RED);
-					g.drawRect(x + i * tileWidth, y + j * tileWidth, tileWidth, tileWidth);
+					g.fillRect(x + i * tileWidth, y + j * tileWidth, tileWidth, tileWidth);
 				}
 				if(i == activeTileX && j == activeTileY && selectedPiece != null) {
 					g.setColor(Color.GREEN);
-					g.drawRect(x + i * tileWidth,y + j * tileWidth, tileWidth, tileWidth);
+					g.fillRect(x + i * tileWidth,y + j * tileWidth, tileWidth, tileWidth);
 				}
 				if(selectedPiece != null) {
 					if(selectedPiece.isValidEndPoint(i, j) && selectedPiece.isValidMove(i, j) && selectedPiece.isNotMovedToSameColor(i, j)) {
 						g.setColor(Color.BLUE);
-						g.drawRect(x + i * tileWidth, y + j * tileWidth, tileWidth, tileWidth);
+						g.fillRect(x + i * tileWidth, y + j * tileWidth, tileWidth, tileWidth);
 					}
+				}
+				g.setColor(Color.BLACK);
+				g.drawRect(x + i * tileWidth, y + j * tileWidth, tileWidth, tileWidth);
+				if(pieces[i][j] != null) {
+					pieces[i][j].render(g);
 				}
 			}
 		}
@@ -113,6 +116,7 @@ public class Board {
 			if(selectedPiece != null) {
 				if(selectedPiece.player.isItsTurn()) {
 					selectedPiece.move(moveTileX, moveTileY);
+					//AudioPlayer.getSound("move").play();
 				}
 				//System.out.println("Moved"+ moveTileX + ":" + moveTileY);
 			}
@@ -146,13 +150,13 @@ public class Board {
 	
 	public void setupBoard() {
 		//Tests
-		this.pieces[1][1] = new Pawn(1, 1,this, this.player0);
-		this.pieces[1][6] = new Pawn(1, 6,this, this.player1);
+		//this.pieces[1][1] = new Pawn(1, 1,this, this.player0);
+		//this.pieces[1][6] = new Pawn(1, 6,this, this.player1);
 		/*
 		 * Black pieces
 		 */
 		//Rooks
-		/*this.pieces[0][0] = new Rook(0, 0, this, this.player1);
+		this.pieces[0][0] = new Rook(0, 0, this, this.player1);
 		this.pieces[7][0] = new Rook(7, 0, this, this.player1);
 		//Knights
 		this.pieces[1][0] = new Knight(1, 0, this, this.player1);
@@ -167,13 +171,13 @@ public class Board {
 		//Black pawns
 		for(int i = 0; i < 8; i++) {
 			this.pieces[i][1] = new Pawn(i, 1,this, this.player1);
-		}*/
+		}
 		
 		/*
 		 * White pieces 
 		 */
 		//Rooks
-		/*this.pieces[0][7] = new Rook(0, 7, this, this.player0);
+		this.pieces[0][7] = new Rook(0, 7, this, this.player0);
 		this.pieces[7][7] = new Rook(7, 7, this, this.player0);
 		//Knights
 		this.pieces[1][7] = new Knight(1, 7, this, this.player0);
@@ -186,9 +190,9 @@ public class Board {
 		//King
 		this.pieces[4][7] = new King(4, 7, this, this.player0);
 		//White pawns
-		/*for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < 8; i++) {
 			this.pieces[i][6] = new Pawn(i, 6,this, this.player0);
-		}*/
+		}
 	}
 	
 	public Piece getPiece(int finalX, int finalY) {
@@ -233,6 +237,16 @@ public class Board {
 	public void capture(int finalX, int finalY) {
 		Piece piece = this.pieces[finalX][finalY];
 		if(piece != null) {
+			if(piece.getPieceType() == PieceType.King) {
+				if(piece.getPlayer().getColor() == Color.WHITE) {
+					HUD.setWinner("Black won!");
+				}
+				if(piece.getPlayer().getColor() == Color.BLACK) {
+					HUD.setWinner("White won!");
+				}
+				AudioPlayer.getMusic("victory").play();
+				this.isAbleToMove = false;
+			}
 			this.pieces[finalX][finalY] = null;
 		}
 	}

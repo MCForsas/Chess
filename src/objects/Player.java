@@ -6,6 +6,7 @@ public class Player {
 	private Color color;
 	private Board board;
 	private boolean isItsTurn;
+	private int time;
 
 	public Player(Color color, boolean isItsTurn) {
 		this.color = color;

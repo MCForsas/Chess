@@ -63,6 +63,17 @@ public class Pawn extends Piece{
 				return false;
 			}
 		}
+		if(Math.abs(finalY-this.y) == 2) {
+			if(finalY > this.y) {
+				piece = board.getPiece(finalX, this.y+1);
+			}
+			if(finalY < this.y) {
+				piece = board.getPiece(finalX, this.y-1);
+			}
+			if(piece != null) {
+				return false;
+			}
+		}
 		return true;
 	}
 }
