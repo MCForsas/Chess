@@ -1,16 +1,10 @@
 package objects;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import engine.ID;
 
 public abstract class GameObject {
 
-	protected float x, y;
-	protected ID id;
-	protected float velocityX, velocityY;
-	protected BufferedImage sprite;
+	protected int x, y;
 
 	/*
 	 * Constructor for game objects
@@ -19,11 +13,9 @@ public abstract class GameObject {
 	 * @param {ID} id id of the object
 	 * @param {BufferedImage} sprite object's sprite
 	 */
-	public GameObject(float x, float y, ID id, BufferedImage sprite) {
+	public GameObject(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.id = id;
-		this.sprite = sprite;
 	}
 
 	/*
@@ -35,25 +27,9 @@ public abstract class GameObject {
 	 * Just draw object's sprite by default
 	 * @param {Graphics} g
 	 */
-	public void render(Graphics g) {
-		if (this.sprite != null) {
-			g.drawImage(sprite, (int) (x - sprite.getWidth() / 2), (int) (y - sprite.getHeight() / 2), null);
-		}
-	}
+	public void render(Graphics g) {};
 
-	/*
-	 * Get keyboard input
-	 */
-	protected void keyboardInput() {
-
-	}
-
-	/*
-	 * get collision mask's bounds
-	 */
-	public abstract Rectangle getBounds();
-
-	public float getX() {
+	public int getX() {
 		return x;
 	}
 
@@ -61,36 +37,11 @@ public abstract class GameObject {
 		this.x = x;
 	}
 
-	public float getY() {
+	public int getY() {
 		return y;
 	}
 
 	public void setY(int y) {
 		this.y = y;
 	}
-
-	public ID getId() {
-		return id;
-	}
-
-	public void setId(ID id) {
-		this.id = id;
-	}
-
-	public float getVelocityX() {
-		return velocityX;
-	}
-
-	public void setVelocityX(int velocityX) {
-		this.velocityX = velocityX;
-	}
-
-	public float getVelocityY() {
-		return velocityY;
-	}
-
-	public void setVelocityY(int velocityY) {
-		this.velocityY = velocityY;
-	}
-
 }

@@ -1,14 +1,18 @@
 package objects;
 
 import java.awt.Color;
+import java.awt.Graphics;
 
-public class Player {
+import engine.Game;
+
+public class Player extends GameObject {
 	private Color color;
 	private Board board;
 	private boolean isItsTurn;
 	private int time;
 
 	public Player(Color color, boolean isItsTurn) {
+		super(0,0);
 		this.color = color;
 		this.isItsTurn = isItsTurn;
 	}
@@ -43,6 +47,18 @@ public class Player {
 
 	public void setBoard(Board board) {
 		this.board = board;
+	}
+
+	@Override
+	public void tick() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void render(Graphics g) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

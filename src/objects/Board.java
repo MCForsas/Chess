@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import engine.AudioPlayer;
+import engine.Game;
 import engine.Methods;
 import engine.MouseManager;
 import graphics.HUD;
@@ -14,12 +15,11 @@ import objects.pieces.Pawn;
 import objects.pieces.Queen;
 import objects.pieces.Rook;
 
-public class Board {
+public class Board extends GameObject{
 	private int tileWidth;
 	private int boardSize = 8;
 	private Piece[][] pieces = new Piece[boardSize][boardSize];
 	private Color blackColor, whiteColor;
-	private int x, y;
 	private Player player0, player1;
 	private int selectedTileX = -1, selectedTileY = -1,activeTileX, activeTileY, moveTileX, moveTileY;
 	private Piece selectedPiece;
@@ -27,9 +27,8 @@ public class Board {
 	private Promotion promotion;
 
 	public Board(int x, int y, int tileWidth, Player player0, Player player1) {
+		super(x,y);
 		this.tileWidth = tileWidth;
-		this.x = x;
-		this.y = y;
 		this.player0 = player0;
 		this.player1 = player1;
 		this.blackColor = new Color(83,83,78);
