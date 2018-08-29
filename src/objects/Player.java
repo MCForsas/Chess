@@ -53,7 +53,7 @@ public class Player extends GameObject {
 	 * @return boolean isItsTurn
 	 */
 	public boolean isItsTurn() {
-		return isItsTurn;
+		return this.isItsTurn;
 	}
 
 	/*
@@ -69,7 +69,7 @@ public class Player extends GameObject {
 	 * @return Color color 
 	 */
 	public Color getColor() {
-		return color;
+		return this.color;
 	}
 
 	/*
@@ -85,7 +85,7 @@ public class Player extends GameObject {
 	 * @return Board board
 	 */
 	public Board getBoard() {
-		return board;
+		return this.board;
 	}
 
 	/*

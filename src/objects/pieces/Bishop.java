@@ -15,9 +15,9 @@ public class Bishop extends Piece{
 	public Bishop(int x, int y, Board board, Player player) {
 		super(x, y, board, player);
 		if(player.getColor() == Color.WHITE) {
-			sprite = spriteSheet.grabImage(1, 4, 32, 32);
+			this.sprite = this.spriteSheet.grabImage(1, 4, 32, 32);
 		}else {
-			sprite = spriteSheet.grabImage(3, 4, 32, 32);
+			this.sprite = this.spriteSheet.grabImage(3, 4, 32, 32);
 		}
 		this.pieceType = PieceType.Bishop;
 	}
@@ -38,7 +38,7 @@ public class Bishop extends Piece{
 		int directionX = 0, directionY = 0;
 		int lenght = 0;
 		
-		if(finalX - x > 0) {
+		if(finalX - this.x > 0) {
 			directionX = 1;
 		}else {
 			directionX = -1;

@@ -28,8 +28,12 @@ public class SpriteSheet {
 	 * @return BuffedImage image returns image, which is used for sprite
 	 */
 	public BufferedImage grabImage(int column, int row, int width, int height) {
-		BufferedImage image = sprite.getSubimage(row * imageSize - imageSize, column * imageSize - imageSize, width,
-				height);
+		BufferedImage image = this.sprite.getSubimage(
+			row * imageSize - imageSize,
+			column * imageSize - imageSize,
+			width,
+			height
+		);
 		return image;
 	}
 }

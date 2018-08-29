@@ -30,7 +30,7 @@ public abstract class GameObject {
 	public void render(Graphics g) {};
 
 	public int getX() {
-		return x;
+		return this.x;
 	}
 
 	public void setX(int x) {
@@ -38,7 +38,7 @@ public abstract class GameObject {
 	}
 
 	public int getY() {
-		return y;
+		return this.y;
 	}
 
 	public void setY(int y) {

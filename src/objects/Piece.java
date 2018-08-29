@@ -46,10 +46,10 @@ public abstract class Piece{
 	protected boolean isPressed() {
 		if(MouseManager.getMouseButtonPressed(MouseEvent.BUTTON1)){
 			if(MouseManager.isMouseCursorInRectangle(
-					this.x * board.getTileWidth(),
-					this.y * board.getTileWidth(),
-					this.x+1 * board.getTileWidth(),
-					this.y+1 * board.getTileWidth())) {
+					this.x * this.board.getTileWidth(),
+					this.y * this.board.getTileWidth(),
+					this.x+1 * this.board.getTileWidth(),
+					this.y+1 * this.board.getTileWidth())) {
 				return true;
 			}
 		}
@@ -63,9 +63,9 @@ public abstract class Piece{
 	public void render(Graphics g) {
 		if (this.sprite != null) {
 			g.drawImage(
-				sprite,
-				board.getX() + x * board.getTileWidth() + sprite.getWidth()/4,
-				board.getY() + y * board.getTileWidth() + sprite.getHeight()/4,
+				this.sprite,
+				this.board.getX() + this.x * this.board.getTileWidth() + this.sprite.getWidth()/4,
+				this.board.getY() + this.y * this.board.getTileWidth() + this.sprite.getHeight()/4,
 				null
 			);
 		}
@@ -119,16 +119,16 @@ public abstract class Piece{
 	public void move(int finalX, int finalY) {
 		if(isValidEndPoint(finalX,finalY) && isValidMove(finalX, finalY) && isNotMovedToSameColor(finalX, finalY)) {
 			//Get piece info of piece that is on that tile
-			Piece piece = board.getPiece(finalX, finalY);
+			Piece piece = this.board.getPiece(finalX, finalY);
 			if(piece != null) {
 				//If tile is occupied by other color, capture that piece
 				if(piece.getPlayer().getColor() != this.player.getColor()) {
-					board.capture(finalX, finalY);
+					this.board.capture(finalX, finalY);
 				}
 			}
 			
 			//Move the piece
-			board.movePiece(this.x, this.y, finalX, finalY);
+			this.board.movePiece(this.x, this.y, finalX, finalY);
 			this.x = finalX;
 			this.y = finalY;
 			this.moves++;
@@ -140,7 +140,7 @@ public abstract class Piece{
 	 * @return PieceType pieceType
 	 */
 	public PieceType getPieceType() {
-		return pieceType;
+		return this.pieceType;
 	}
 
 	/*
@@ -164,7 +164,7 @@ public abstract class Piece{
 	 * @return int moves amount of moves
 	 */
 	protected int getMoves() {
-		return moves;
+		return this.moves;
 	}
 	
 	/*
@@ -180,7 +180,7 @@ public abstract class Piece{
 	 * @return int x x tile
 	 */
 	public int getX() {
-		return x;
+		return this.x;
 	}
 
 	/*
@@ -196,7 +196,7 @@ public abstract class Piece{
 	 * @return int y y tile
 	 */
 	public int getY() {
-		return y;
+		return this.y;
 	}
 
 	/*

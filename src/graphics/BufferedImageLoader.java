@@ -19,10 +19,10 @@ public class BufferedImageLoader {
 	 */
 	public BufferedImage loadImage(String path) {
 		try {
-			image = ImageIO.read(getClass().getResource(path));
+			this.image = ImageIO.read(getClass().getResource(path));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return image;
+		return this.image;
 	}
 }

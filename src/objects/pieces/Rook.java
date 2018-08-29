@@ -15,9 +15,9 @@ public class Rook extends Piece{
 	public Rook(int x, int y, Board board, Player player) {
 		super(x, y, board, player);
 		if(player.getColor() == Color.WHITE) {
-			sprite = spriteSheet.grabImage(1, 2, 32, 32);
+			this.sprite = this.spriteSheet.grabImage(1, 2, 32, 32);
 		}else {
-			sprite = spriteSheet.grabImage(3, 2, 32, 32);
+			this.sprite = this.spriteSheet.grabImage(3, 2, 32, 32);
 		}
 		this.pieceType = PieceType.Rook;
 	}
@@ -38,7 +38,7 @@ public class Rook extends Piece{
 		
 		//Chechk if piece is moved horizontally or vertically
 		if(finalY == this.y) {
-			if(finalX - x > 0) {
+			if(finalX - this.x > 0) {
 				directionX = 1;
 			}else {
 				directionX = -1;
@@ -46,7 +46,7 @@ public class Rook extends Piece{
 			directionY = 0;
 		}
 		if(finalX == this.x){
-			if(finalY - y > 0) {
+			if(finalY - this.y > 0) {
 				directionY = 1;
 			}else {
 				directionY = -1;
@@ -54,6 +54,8 @@ public class Rook extends Piece{
 			directionX = 0;
 		}
 		lenght = Math.abs(finalX - this.x) + Math.abs(finalY - this.y);
+	
+		 //Check if piece doesn't jump over other pieces
 		for(int i = 1; i < lenght; i++){
 			Piece piece = this.board.getPiece(this.x+directionX*i, this.y+directionY*i);
 			if(piece != null) {

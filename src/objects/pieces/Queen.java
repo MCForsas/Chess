@@ -16,9 +16,9 @@ public class Queen extends Piece{
 	public Queen (int x, int y, Board board, Player player) {
 		super(x, y, board, player);
 		if(player.getColor() == Color.WHITE) {
-			sprite = spriteSheet.grabImage(2, 1, 32, 32);
+			this.sprite = this.spriteSheet.grabImage(2, 1, 32, 32);
 		}else {
-			sprite = spriteSheet.grabImage(4, 1, 32, 32);
+			this.sprite = this.spriteSheet.grabImage(4, 1, 32, 32);
 		}
 		this.pieceType = PieceType.Queen;
 	}
@@ -46,14 +46,14 @@ public class Queen extends Piece{
 		
 		//Check if moves diagonally or horizontally or vertically
 		if(finalY == this.y) {
-			if(finalX - x > 0) {
+			if(finalX - this.x > 0) {
 				directionX = 1;
 			}else {
 				directionX = -1;
 			}
 			lenght = Math.abs(finalX - this.x);
 		}else if(finalX == this.x){
-			if(finalY - y > 0) {
+			if(finalY - this.y > 0) {
 				directionY = 1;
 			}else {
 				directionY = -1;
@@ -62,12 +62,12 @@ public class Queen extends Piece{
 		}else {
 			
 			lenght = Math.abs(finalX - this.x);
-			if(finalX - x < 0) {
+			if(finalX - this.x < 0) {
 				directionX = -1;
 			}else {
 				directionX = 1;
 			}
-			if(finalY - y < 0) {
+			if(finalY - this.y < 0) {
 				directionY = -1;
 			}else {
 				directionY = 1;

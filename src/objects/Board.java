@@ -53,56 +53,60 @@ public class Board extends GameObject{
 		
 		g.setColor(Color.BLACK);
 
-		for (int i = 0; i < boardSize; i++) {
-			for (int j = 0; j < boardSize; j++) {
+		for (int i = 0; i < this.boardSize; i++) {
+			for (int j = 0; j < this.boardSize; j++) {
 				//Render tiles
 				if (j % 2 == 0 ^ i % 2 == 0) {
 					g.setColor(this.blackColor);
 				}else {
 					g.setColor(this.whiteColor);
 				}
-				g.fillRect( x + i * tileWidth, y + j * tileWidth, tileWidth, tileWidth);
+				g.fillRect( this.x + i * this.tileWidth, this.y + j * this.tileWidth, this.tileWidth, this.tileWidth);
 				
 				//draw selected tile
-				if(i == selectedTileX && j == selectedTileY) {
+				if(i == this.selectedTileX && j == this.selectedTileY) {
 					g.setColor(Color.RED);
-					g.fillRect(x + i * tileWidth, y + j * tileWidth, tileWidth, tileWidth);
+					g.fillRect(this.x + i * this.tileWidth, this.y + j * this.tileWidth, this.tileWidth, this.tileWidth);
 				}
 				
 				//Draw active tile
-				if(i == activeTileX && j == activeTileY && selectedPiece != null) {
+				if(i == this.activeTileX && j == this.activeTileY && this.selectedPiece != null) {
 					g.setColor(Color.GREEN);
-					g.fillRect(x + i * tileWidth,y + j * tileWidth, tileWidth, tileWidth);
+					g.fillRect(this.x + i * this.tileWidth, this.y + j * this.tileWidth, this.tileWidth, this.tileWidth);
 				}
 				
 				//Draw available squares to move to
-				if(selectedPiece != null) {
-					if(selectedPiece.isValidEndPoint(i, j) && selectedPiece.isValidMove(i, j) && selectedPiece.isNotMovedToSameColor(i, j)) {
+				if(this.selectedPiece != null) {
+					if(
+						this.selectedPiece.isValidEndPoint(i, j) &&
+						this.selectedPiece.isValidMove(i, j) && 
+						this.selectedPiece.isNotMovedToSameColor(i, j)
+					) {
 						g.setColor(Color.BLUE);
-						g.fillRect(x + i * tileWidth, y + j * tileWidth, tileWidth, tileWidth);
+						g.fillRect(this.x + i * this.tileWidth, this.y + j * this.tileWidth, this.tileWidth, this.tileWidth);
 					}
 				}
 				
 				//draw rectangle outlines
 				g.setColor(Color.BLACK);
-				g.drawRect(x + i * tileWidth, y + j * tileWidth, tileWidth, tileWidth);
+				g.drawRect(this.x + i * this.tileWidth, this.y + j * this.tileWidth, this.tileWidth, this.tileWidth);
 				
 				//render pieces
-				if(pieces[i][j] != null) {
-					pieces[i][j].render(g);
+				if(this.pieces[i][j] != null) {
+					this.pieces[i][j].render(g);
 				}
 			}
 		}
 		
 		//render promotion
 		if(this.promotion != null) {
-			promotion.render(g);
+			this.promotion.render(g);
 		}
 
 	}
 
 	public void tick() {
-		if(isAbleToMove) {
+		if(this.isAbleToMove) {
 			selectTile();
 			move();
 		}
@@ -117,19 +121,19 @@ public class Board extends GameObject{
 	private void selectTile() {
 		if(MouseManager.getMouseButtonPressed(1)) {
 			
-			selectedTileX = (MouseManager.getMouseX() - x) / tileWidth; 
-			selectedTileY = (MouseManager.getMouseY() - y) / tileWidth;
-			selectedTileX = (int) Methods.clamp(selectedTileX, 0, 7);
-			selectedTileY = (int) Methods.clamp(selectedTileY, 0, 7);
+			this.selectedTileX = (MouseManager.getMouseX() - this.x) / this.tileWidth; 
+			this.selectedTileY = (MouseManager.getMouseY() - y) / this.tileWidth;
+			this.selectedTileX = (int) Methods.clamp(this.selectedTileX, 0, 7);
+			this.selectedTileY = (int) Methods.clamp(this.selectedTileY, 0, 7);
 			
-			Piece piece = pieces[selectedTileX][selectedTileY];
+			Piece piece = this.pieces[this.selectedTileX][this.selectedTileY];
 			
 			//Try to move piece
 			if(piece != null) {
 				if(piece.getPlayer().isItsTurn()) {
-					activeTileX = selectedTileX;
-					activeTileY = selectedTileY;
-					selectedPiece = pieces[selectedTileX][selectedTileY];
+					this.activeTileX = this.selectedTileX;
+					this.activeTileY = this.selectedTileY;
+					this.selectedPiece = this.pieces[this.selectedTileX][this.selectedTileY];
 				}
 			}
 		}
@@ -140,13 +144,13 @@ public class Board extends GameObject{
 	 */
 	private void move() {
 		if(MouseManager.getMouseButtonPressed(1)) {
-			moveTileX = (MouseManager.getMouseX() - x) / tileWidth; 
-			moveTileY = (MouseManager.getMouseY() - y) / tileWidth;
-			moveTileX = (int) Methods.clamp(moveTileX, 0, 7);
-			moveTileY = (int) Methods.clamp(moveTileY, 0, 7);
-			if(selectedPiece != null) {
-				if(selectedPiece.player.isItsTurn()) {
-					selectedPiece.move(moveTileX, moveTileY);
+			this.moveTileX = (MouseManager.getMouseX() - this.x) / this.tileWidth; 
+			this.moveTileY = (MouseManager.getMouseY() - this.y) / this.tileWidth;
+			this.moveTileX = (int) Methods.clamp(this.moveTileX, 0, 7);
+			this.moveTileY = (int) Methods.clamp(this.moveTileY, 0, 7);
+			if(this.selectedPiece != null) {
+				if(this.selectedPiece.getPlayer().isItsTurn()) {
+					this.selectedPiece.move(this.moveTileX, this.moveTileY);
 				}
 			}
 		}
@@ -189,7 +193,7 @@ public class Board extends GameObject{
 	public void setupBoard() {
 		//Tests
 		//this.pieces[1][1] = new Pawn(1, 1,this, this.player0);
-		//this.pieces[1][6] = new Pawn(1, 6,this, this.player1);
+		this.pieces[1][2] = new Pawn(1, 2,this, this.player0);
 		/*
 		 * Black pieces
 		 */
@@ -267,14 +271,14 @@ public class Board extends GameObject{
 		//Promote
 		if(piece.getPieceType() == PieceType.Pawn) {
 			if(piece.getPlayer().getColor() == Color.WHITE && finalY == 0) {
-				promotion = new Promotion(this.x + tileWidth*2, this.y + tileWidth*2, piece, this);
+				this.promotion = new Promotion(this.x + this.tileWidth*2, this.y + this.tileWidth*2, piece, this);
 			}
-			if(piece.getPlayer().getColor() == Color.BLACK && finalY == boardSize-1) {
-				promotion = new Promotion(this.x + tileWidth*2, this.y + tileWidth*2, piece, this);
+			if(piece.getPlayer().getColor() == Color.BLACK && finalY == this.boardSize-1) {
+				this.promotion = new Promotion(this.x + this.tileWidth*2, this.y + this.tileWidth*2, piece, this);
 			}
 		}
-		player0.toggleItsTurn();
-		player1.toggleItsTurn();
+		this.player0.toggleItsTurn();
+		this.player1.toggleItsTurn();
 	}
 
 	/*
@@ -306,7 +310,7 @@ public class Board extends GameObject{
 	 * @return boolean isAbleToMove
  	 */
 	public boolean isAbleToMove() {
-		return isAbleToMove;
+		return this.isAbleToMove;
 	}
 
 	/*
@@ -322,7 +326,7 @@ public class Board extends GameObject{
 	 * @return boolean tileWidth
 	 */
 	public int getTileWidth() {
-		return tileWidth;
+		return this.tileWidth;
 	}
 
 	/*
@@ -338,7 +342,7 @@ public class Board extends GameObject{
 	 * @return int boardSize
 	 */
 	public int getBoardSize() {
-		return boardSize;
+		return this.boardSize;
 	}
 
 	/*

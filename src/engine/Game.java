@@ -47,8 +47,8 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		//Create level manager and HUD (Heads up display)
-		level = new LevelManager(Levels.MENU);
-		hud = new HUD();
+		this.level = new LevelManager(Levels.MENU);
+		this.hud = new HUD();
 		
 		//Add input listeners
 		this.addKeyListener(new KeyboardManager());
@@ -63,9 +63,9 @@ public class Game extends Canvas implements Runnable {
 	 * Starts a new thread, on which all game is held
 	 */
 	public synchronized void start() {
-		thread = new Thread(this);
-		thread.start();
-		running = true;
+		this.thread = new Thread(this);
+		this.thread.start();
+		this.running = true;
 	}
 	
 	/*
@@ -73,8 +73,8 @@ public class Game extends Canvas implements Runnable {
 	 */
 	public synchronized void stop() {
 		try {
-			thread.join();
-			running = false;
+			this.thread.join();
+			this.running = false;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -91,7 +91,7 @@ public class Game extends Canvas implements Runnable {
 		double delta = 0;
 		long timer = System.currentTimeMillis();
 		int frames = 0;
-		while (running) {
+		while (this.running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
@@ -99,7 +99,7 @@ public class Game extends Canvas implements Runnable {
 				tick();
 				delta--;
 			}
-			if (running) {
+			if (this.running) {
 				render();
 			}
 			frames++;
@@ -117,7 +117,7 @@ public class Game extends Canvas implements Runnable {
 	 * Ticks the game objects
 	 */
 	private void tick() {
-		level.tick();
+		this.level.tick();
 	}
 
 	/*
@@ -137,8 +137,8 @@ public class Game extends Canvas implements Runnable {
 		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		//Render level and HUD
-		level.render(g);
-		hud.render(g);
+		this.level.render(g);
+		this.hud.render(g);
 		
 		g.dispose();
 		bufferStrategy.show();

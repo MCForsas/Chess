@@ -30,9 +30,9 @@ public class HUD {
 	 */
 	public void render(Graphics g) {
 		int fontSize = 28;
-		g.setColor(textColor);
+		g.setColor(this.textColor);
 		
-		hudFont = new Font("Bebas", Font.TRUETYPE_FONT, fontSize);
+		this.hudFont = new Font("Bebas", Font.TRUETYPE_FONT, fontSize);
 		g.setFont(hudFont);
 		
 		String title = "Chess";

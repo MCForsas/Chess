@@ -16,17 +16,17 @@ public class Knight extends Piece{
 	public Knight(int x, int y, Board board, Player player) {
 		super(x, y, board, player);
 		if(player.getColor() == Color.WHITE) {
-			sprite = spriteSheet.grabImage(1, 3, 32, 32);
+			this.sprite = this.spriteSheet.grabImage(1, 3, 32, 32);
 		}else {
-			sprite = spriteSheet.grabImage(3, 3, 32, 32);
+			this.sprite = this.spriteSheet.grabImage(3, 3, 32, 32);
 		}
 		this.pieceType = PieceType.Knight;
 	}
 	
 	@Override
 	protected boolean isValidEndPoint(int finalX, int finalY) {
-		int diffX = Math.abs(finalX - x);
-		int diffY = Math.abs(finalY - y);
+		int diffX = Math.abs(finalX - this.x);
+		int diffY = Math.abs(finalY - this.y);
 		if((diffX == 2 && diffY == 1) || (diffX == 1 && diffY == 2)) {
 			return true;
 		}

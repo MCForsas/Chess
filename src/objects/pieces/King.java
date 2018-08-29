@@ -15,9 +15,9 @@ public class King extends Piece{
 	public King(int x, int y, Board board, Player player) {
 		super(x, y, board, player);
 		if(player.getColor() == Color.WHITE) {
-			sprite = spriteSheet.grabImage(2, 2, 32, 32);
+			this.sprite = this.spriteSheet.grabImage(2, 2, 32, 32);
 		}else {
-			sprite = spriteSheet.grabImage(4, 2, 32, 32);
+			this.sprite = this.spriteSheet.grabImage(4, 2, 32, 32);
 		}
 		this.pieceType = PieceType.King;
 	}

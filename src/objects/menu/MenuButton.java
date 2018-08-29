@@ -30,9 +30,9 @@ public abstract class MenuButton extends GameObject {
 		this.title = title;
 		this.font = font;
 		this.fontSize = font.getSize()/2; 
-		this.width = (title.length()*this.fontSize)+padding*2;
+		this.width = (title.length()*this.fontSize)+this.padding*2;
 		this.height = this.fontSize+this.padding*2;
-		this.x = x - width/2 + padding;
+		this.x = x - this.width/2 + this.padding;
 		this.y = y;
 	}
 	
@@ -53,11 +53,11 @@ public abstract class MenuButton extends GameObject {
 
 	public void render(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
-		g.fillRect(this.x-padding, this.y-padding, width+padding*2, height+padding*2);
+		g.fillRect(this.x-this.padding, this.y-this.padding, this.width+this.padding*2, this.height+this.padding*2);
 		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(this.x, this.y, width, height);
+		g.fillRect(this.x, this.y, this.width, this.height);
 		g.setColor(Color.BLACK);
 		g.setFont(this.font);
-		g.drawString(this.title, x+padding, this.y+height-padding/2);
+		g.drawString(this.title, this.x+this.padding, this.y+this.height-this.padding/2);
 	}
 }

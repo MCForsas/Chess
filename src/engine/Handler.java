@@ -18,7 +18,7 @@ public class Handler{
 	 * Return game object list
 	 */
 	public LinkedList<GameObject> getObject() {
-		return object;
+		return this.object;
 	}
 
 	/*
@@ -26,7 +26,7 @@ public class Handler{
 	 */
 	public void tick() {
 		for (int i = 0; i < object.size(); i++) {
-			object.get(i).tick();;
+			this.object.get(i).tick();;
 		}
 	}
 
@@ -62,6 +62,6 @@ public class Handler{
 	 * Remove all game objects
 	 */
 	public void clear() {
-		object.clear();
+		this.object.clear();
 	}
 }
