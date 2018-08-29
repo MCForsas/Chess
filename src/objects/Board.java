@@ -193,7 +193,7 @@ public class Board extends GameObject{
 	public void setupBoard() {
 		//Tests
 		//this.pieces[1][1] = new Pawn(1, 1,this, this.player0);
-		this.pieces[1][2] = new Pawn(1, 2,this, this.player0);
+		//this.pieces[1][2] = new Pawn(1, 2,this, this.player0);
 		/*
 		 * Black pieces
 		 */
