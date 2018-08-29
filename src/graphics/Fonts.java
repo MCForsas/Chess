@@ -5,6 +5,10 @@ import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.util.ArrayList;
 
+/*
+ * Used to load and store fonts
+ * @author MCForsas 2018
+ */
 
 public class Fonts {
 	private static ArrayList<Fonts> fontList = new ArrayList<Fonts>();

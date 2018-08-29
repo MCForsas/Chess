@@ -7,6 +7,11 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+/*
+ * Loads game sounds, stores them and returns
+ * @author MCForsas 2018
+ */
+
 public class AudioPlayer {
 	
 	public static Map<String, Sound> soundMap = new HashMap<String, Sound>();
@@ -24,12 +29,17 @@ public class AudioPlayer {
 	}
 
 	/*
-	 * Get sound by name
+	 * Get music by name
+	 * @param string key
 	 */
 	public static Music getMusic(String key) {
 		return musicMap.get(key);
 	}
 	
+	/*
+	 * Get sound by name
+	 * @param string key
+	 */
 	public static Sound getSound(String key) {
 		return soundMap.get(key);
 	}

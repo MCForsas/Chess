@@ -1,17 +1,15 @@
 package objects.pieces;
 
 import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-
-import engine.Game;
-import engine.ID;
-import graphics.SpriteSheet;
 import objects.Board;
-import objects.BoardState;
 import objects.Piece;
 import objects.PieceType;
 import objects.Player;
+
+/*
+ * Queen piece, can move like itself in chess
+ * @author MCForsas 2018
+ */
 
 public class Queen extends Piece{
 	
@@ -25,6 +23,7 @@ public class Queen extends Piece{
 		this.pieceType = PieceType.Queen;
 	}
 
+	@Override
 	protected boolean isValidEndPoint(int finalX, int finalY)  {
 		 int x_diff = Math.abs(finalX - this.x);
 	     int y_diff = Math.abs(finalY - this.y);
@@ -44,6 +43,8 @@ public class Queen extends Piece{
 
 		int directionX = 0, directionY = 0;
 		int lenght = 0;
+		
+		//Check if moves diagonally or horizontally or vertically
 		if(finalY == this.y) {
 			if(finalX - x > 0) {
 				directionX = 1;
@@ -59,6 +60,7 @@ public class Queen extends Piece{
 			}
 			lenght = Math.abs(finalY - this.y);
 		}else {
+			
 			lenght = Math.abs(finalX - this.x);
 			if(finalX - x < 0) {
 				directionX = -1;
@@ -72,12 +74,11 @@ public class Queen extends Piece{
 			}
 		}
 		
+		//Check if piece does jump over other pieces
 		for(int i = 1; i < lenght; i++){
 			Piece piece = this.board.getPiece(this.x+directionX*i, this.y+directionY*i);
 			if(piece != null) {
-				//if(piece.getPlayer() == this.player) {
-					return false;
-				//}
+				return false;
 			}
 		}
 		return true;

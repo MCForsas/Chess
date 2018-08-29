@@ -12,16 +12,21 @@ import graphics.Window;
 
 import java.awt.Graphics;
 
+/*
+ * Runs the game, instantiates needed object, holds game thread, holds all global fields 
+ * @author MCForsas 2018
+ */
+
 public class Game extends Canvas implements Runnable {
 
-	private static final long serialVersionUID = -1178041823728909735L;
 	public static final int WINDOW_WIDTH = 720, WINDOW_HEIGHT = WINDOW_WIDTH / 12 * 9;
 	public static final int DEFAULT_FONT_SIZE = 24;
 	public static int FPS;
+	public static BufferedImage spriteSheet;
+	
+	private static final long serialVersionUID = -1178041823728909735L;
 	private Thread thread;
 	private boolean running = false;
-	public static BufferedImage spriteSheet;
-	public final int tileWINDOW_WIDTH = 48;
 	private HUD hud;
 	private LevelManager level;
 
@@ -29,21 +34,27 @@ public class Game extends Canvas implements Runnable {
 	 * Instantiates objects and window
 	 */
 	public Game() {
+		//Add font, image and sound loaders
 		Fonts.addFont(new Fonts("/fonts/BEBAS.ttf"));
 		BufferedImageLoader loader = new BufferedImageLoader();
-		this.addKeyListener(new KeyboardManager());
-		this.addMouseListener(new MouseManager());
-		hud = new HUD();
+		AudioPlayer.load();
+		
+		//Try to load up the sprite sheet
 		try {
 			spriteSheet = loader.loadImage("/images/pieces.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		AudioPlayer.load();
-		// AudioPlayer.getMusic("music").loop();
-		level = new LevelManager(Levels.GAME);
+		//Create level manager and HUD (Heads up display)
+		level = new LevelManager(Levels.MENU);
+		hud = new HUD();
 		
+		//Add input listeners
+		this.addKeyListener(new KeyboardManager());
+		this.addMouseListener(new MouseManager());
+		
+		//Create game window
 		new Window(WINDOW_WIDTH, WINDOW_HEIGHT, "Chess", this);
 	}
 
@@ -107,7 +118,6 @@ public class Game extends Canvas implements Runnable {
 	 */
 	private void tick() {
 		level.tick();
-		//handler.tick();
 	}
 
 	/*
@@ -119,12 +129,14 @@ public class Game extends Canvas implements Runnable {
 			this.createBufferStrategy(3);
 			return;
 		}
-
+		
 		Graphics g = bufferStrategy.getDrawGraphics();
-
+		
+		//Render background
 		g.setColor(new Color(66,55,21));
 		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
+		//Render level and HUD
 		level.render(g);
 		hud.render(g);
 		
@@ -132,6 +144,9 @@ public class Game extends Canvas implements Runnable {
 		bufferStrategy.show();
 	}
 	
+	/*
+	 * Starts the game
+	 */
 	public static void main(String args[]) {
 		new Game();
 	}

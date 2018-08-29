@@ -1,17 +1,15 @@
 package objects.pieces;
 
 import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-
-import engine.Game;
-import engine.ID;
 import objects.Board;
-import objects.BoardState;
 import objects.Piece;
 import objects.PieceType;
 import objects.Player;
 
+/*
+ * Rook piece, can move like itself in chess
+ * @author MCForsas 2018
+ */
 public class Rook extends Piece{
 
 	public Rook(int x, int y, Board board, Player player) {
@@ -24,10 +22,12 @@ public class Rook extends Piece{
 		this.pieceType = PieceType.Rook;
 	}
 	
+	@Override
 	protected boolean isValidEndPoint(int finalX, int finalY) {
 		return (finalX == this.x || finalY == this.y);
 	}
 
+	@Override
 	protected boolean isValidMove(int finalX, int finalY)  {
 		if(isMovedToItSelf(finalX, finalY)) {
 			return false;
@@ -35,6 +35,8 @@ public class Rook extends Piece{
 		
 		int directionX = 0, directionY = 0;
 		int lenght = 0;
+		
+		//Chechk if piece is moved horizontally or vertically
 		if(finalY == this.y) {
 			if(finalX - x > 0) {
 				directionX = 1;
@@ -55,9 +57,7 @@ public class Rook extends Piece{
 		for(int i = 1; i < lenght; i++){
 			Piece piece = this.board.getPiece(this.x+directionX*i, this.y+directionY*i);
 			if(piece != null) {
-				//if(piece.getPlayer() == this.player) {
-					return false;
-				//}
+				return false;
 			}
 		}
 		return true;

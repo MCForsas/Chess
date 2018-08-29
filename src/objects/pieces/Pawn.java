@@ -1,16 +1,15 @@
 package objects.pieces;
 
 import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-
-import engine.Game;
-import engine.ID;
 import objects.Board;
-import objects.BoardState;
 import objects.Piece;
 import objects.PieceType;
 import objects.Player;
+
+/*
+ * Pawn piece, can move like itself in chess
+ * @author MCForsas 2018
+ */
 
 public class Pawn extends Piece{
 
@@ -24,6 +23,7 @@ public class Pawn extends Piece{
 		this.pieceType = PieceType.Pawn;
 	}
 	
+	@Override
 	protected boolean isValidEndPoint(int finalX, int finalY)  {
 		int diffX = Math.abs(finalX - x);
 		int diffY = Math.abs(finalY - y);
@@ -43,6 +43,8 @@ public class Pawn extends Piece{
 	@Override
 	protected boolean isValidMove(int finalX, int finalY) {
 		Piece piece;
+		
+		//Check if moves backwards
 		if(this.getPlayer().getColor() == Color.WHITE) {
 			if(finalY > this.y) {
 				return false;
@@ -52,6 +54,8 @@ public class Pawn extends Piece{
 				return false;
 			}
 		}
+		
+		//Check if diagonal tile is occupied and if so, allow to capture
 		if(finalX != this.x) {
 			piece = board.getPiece(finalX, finalY);
 			if(piece == null) {
@@ -63,6 +67,8 @@ public class Pawn extends Piece{
 				return false;
 			}
 		}
+		
+		//If is moved for 2 tiles forward
 		if(Math.abs(finalY-this.y) == 2) {
 			if(finalY > this.y) {
 				piece = board.getPiece(finalX, this.y+1);

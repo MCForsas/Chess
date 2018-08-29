@@ -5,12 +5,17 @@ import java.util.LinkedList;
 
 import objects.GameObject;
 
+/*
+ * Handles the game objects: ticks them, renders, adds or removes them
+ * @author MCForsas 2018
+ */
+
 public class Handler{
 
 	public LinkedList<GameObject> object = new LinkedList<GameObject>();
 
 	/*
-	 * Return game object list!
+	 * Return game object list
 	 */
 	public LinkedList<GameObject> getObject() {
 		return object;
@@ -27,7 +32,7 @@ public class Handler{
 
 	/*
 	 * Render game objects
-	 * @param {Graphics} g grahics object, used for rendering
+	 * @param Graphics g graphics object, used for rendering
 	 */
 	
 	public void render(Graphics g) {
@@ -39,7 +44,7 @@ public class Handler{
 
 	/*
 	 * Add game object to list
-	 * @param {GameObject} object 
+	 * @param GameObject object 
 	 */
 	public void addObject(GameObject object) {
 		this.object.add(object);
@@ -47,12 +52,15 @@ public class Handler{
 
 	/*
 	 * Remove game object from list
-	 * @param {GameObject} object 
+	 * @param GameObject object 
 	 */
 	public void removeObject(GameObject object) {
 		this.object.remove(object);
 	}
 	
+	/*
+	 * Remove all game objects
+	 */
 	public void clear() {
 		object.clear();
 	}

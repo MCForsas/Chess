@@ -1,19 +1,15 @@
 package objects.pieces;
 
 import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-
-import javax.naming.PartialResultException;
-
-import engine.Game;
-import engine.ID;
 import objects.Board;
-import objects.BoardState;
 import objects.Piece;
 import objects.PieceType;
 import objects.Player;
 
+/*
+ * Bishop piece, can move like itself in chess
+ * @author MCForsas 2018
+ */
 public class Bishop extends Piece{
 
 	public Bishop(int x, int y, Board board, Player player) {
@@ -26,6 +22,7 @@ public class Bishop extends Piece{
 		this.pieceType = PieceType.Bishop;
 	}
  
+	@Override
 	protected boolean isValidEndPoint(int finalX, int finalY) {
 		int diffX = Math.abs(finalX - this.x);
 		int diffY = Math.abs(finalY - this.y);
@@ -37,8 +34,10 @@ public class Bishop extends Piece{
 		if(isMovedToItSelf(finalX, finalY)) {
 			return false;
 		}
+		
 		int directionX = 0, directionY = 0;
 		int lenght = 0;
+		
 		if(finalX - x > 0) {
 			directionX = 1;
 		}else {
@@ -51,14 +50,14 @@ public class Bishop extends Piece{
 		}else {
 			directionY = -1;
 		}
+		
 		lenght = Math.abs(finalY - this.y);
 		
+		//Check if any pieces are in the path, so no jumping over would occur
 		for(int i = 1; i < lenght; i++){
 			Piece piece = this.board.getPiece(this.x+directionX*i, this.y+directionY*i);
 			if(piece != null) {
-				//if(piece.getPlayer() == this.player) {
-					return false;
-				//}
+				return false;
 			}
 		}
 		return true;

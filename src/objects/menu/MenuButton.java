@@ -6,12 +6,25 @@ import java.awt.Graphics;
 import engine.MouseManager;
 import objects.GameObject;
 
+/*
+ * Button, which can be pressed and performs action
+ * @author MCForsas 2018
+ */
+
 public abstract class MenuButton extends GameObject {
+	
 	private int padding = 8;
 	private String title;
 	private int width, height, fontSize;
 	private Font font;
 	
+	
+	/*
+	 * @param x button's x coordinate
+	 * @param y button's y coordinate
+	 * @param String title title to draw on button
+	 * @param Font font to use for button title
+	 */
 	public MenuButton(int x, int y, String title, Font font) {
 		super(x, y);
 		this.title = title;
@@ -23,14 +36,12 @@ public abstract class MenuButton extends GameObject {
 		this.y = y;
 	}
 	
+	/*
+	 * Checks if mouse cursor is on button and and if left mouse button is pressed
+	 * @returns boolean isPressed is cursor on button and is pressed?
+	 */
 	protected boolean isPressed() {
-		int mX = MouseManager.getMouseX();
-		int mY = MouseManager.getMouseY();
-		if(
-			MouseManager.getMouseButtonPressed(1) &&
-			(mX > this.x-padding && mX < this.x + this.width + padding) && 
-			(mY > this.y-padding && mY < this.y + this.height + padding)
-		)	{
+		if(MouseManager.getMouseButtonPressed(1) && MouseManager.isMouseCursorInRectangle(this.x, this.y, this.width + this.padding, this.height + this.padding)){
 			return true;
 		}else {
 			return false;
@@ -39,6 +50,7 @@ public abstract class MenuButton extends GameObject {
 	}
 	
 	public abstract void tick();
+
 	public void render(Graphics g) {
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(this.x-padding, this.y-padding, width+padding*2, height+padding*2);

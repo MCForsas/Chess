@@ -11,25 +11,44 @@ import objects.menu.ButtonGotoMenu;
 import objects.menu.ButtonPlay;
 import objects.menu.MenuButton;
 
+/*
+ * Manages all levels ticks them, changes and cleans up
+ * @author MCForsas 2018
+ */
 public class LevelManager {
+	
 	private static Levels currentLevel;
 	public static Handler handler;
 	
+	/*
+	 * Initialize object and start the defauult level
+	 * @param Levels first level
+	 */
 	LevelManager(Levels startLevel) {
 		handler = new Handler();
 		currentLevel = startLevel;
 		startLevel();
 	}
 	
+	/*
+	 * Changes level
+	 * @param Levels level
+	 */
 	public static void changeLevel(Levels level) {
 		currentLevel = level;
 		startLevel();
 	}
 	
+	/*
+	 * Starts the level - cleans all objects and initiates level objects
+	 */
 	private static void startLevel() {
 		handler.clear();
 		switch (currentLevel) {
 			case MENU:{
+				/*
+				 * Main menu
+				 */
 				Font buttonFont = new Font("Bebas", Font.TRUETYPE_FONT, Game.DEFAULT_FONT_SIZE);
 				MenuButton buttonPlay = new ButtonPlay(Game.WINDOW_WIDTH/2, Game.WINDOW_HEIGHT/3, "Play!", buttonFont);
 				MenuButton buttonExit = new ButtonExit(Game.WINDOW_WIDTH/2, Game.WINDOW_HEIGHT/2, "Quit", buttonFont);
@@ -60,10 +79,17 @@ public class LevelManager {
 		}
 	}
 	
+	/*
+	 * Ticks all objects
+	 */
 	public void tick() {
 		handler.tick();
 	}
 	
+	/*
+	 * Renders all objects
+	 * @param Graphics g
+	 */
 	public void render(Graphics g) {
 		handler.render(g);
 	}

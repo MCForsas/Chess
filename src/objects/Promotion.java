@@ -8,6 +8,10 @@ import engine.Game;
 import engine.MouseManager;
 import graphics.SpriteSheet;
 
+/*
+ * Promotes pawn to other piece, when pawn reaches the end
+ */
+
 public class Promotion {
 	int x, y;
 	private Piece pawn;

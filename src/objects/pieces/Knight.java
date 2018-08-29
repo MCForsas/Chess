@@ -1,16 +1,15 @@
 package objects.pieces;
 
 import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-
-import engine.Game;
-import engine.ID;
 import objects.Board;
-import objects.BoardState;
 import objects.Piece;
 import objects.PieceType;
 import objects.Player;
+
+/*
+ * Knight piece, can move like itself in chess
+ * @author MCForsas 2018
+ */
 
 public class Knight extends Piece{
 
@@ -24,6 +23,7 @@ public class Knight extends Piece{
 		this.pieceType = PieceType.Knight;
 	}
 	
+	@Override
 	protected boolean isValidEndPoint(int finalX, int finalY) {
 		int diffX = Math.abs(finalX - x);
 		int diffY = Math.abs(finalY - y);
@@ -36,12 +36,6 @@ public class Knight extends Piece{
 
 	@Override
 	protected boolean isValidMove(int finalX, int finalY) {
-		/*Piece piece = this.board.getPiece(finalX, finalY);
-		if(piece != null) {
-			//if(piece.getPlayer() == this.player) {
-				return false;
-			//}
-		}*/
 		return true;
 	}
 }
